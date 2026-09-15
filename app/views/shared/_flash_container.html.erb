@@ -1,0 +1,6 @@
+<% if flash.any? || content_for?(:flash) %>
+  <div id="flash" class="toast toast-end z-50">
+    <%= render "shared/flash" %>
+    <%= content_for :flash %>
+  </div>
+<% end %>

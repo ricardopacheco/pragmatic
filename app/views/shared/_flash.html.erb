@@ -1,0 +1,7 @@
+<% flash.each do |type, message| %>
+  <% error = type.to_s == "alert" %>
+  <div role="alert" class="alert <%= error ? "alert-error" : "alert-success" %>" data-controller="toast">
+    <%= render "shared/icons/#{error ? "x_circle" : "check_circle"}" %>
+    <span><%= message %></span>
+  </div>
+<% end %>
