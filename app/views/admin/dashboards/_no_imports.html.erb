@@ -1,0 +1,15 @@
+<section id="latest_import" class="card border border-base-300 bg-base-100 shadow-sm lg:col-span-2">
+  <div class="card-body">
+    <h2 class="card-title text-base"><%= t(".title") %></h2>
+    <div class="flex flex-1 flex-col items-center justify-center py-6 text-center">
+      <div class="grid size-12 place-items-center rounded-full bg-base-200 text-2xl text-base-content/50">
+        <%= render "shared/icons/document_arrow_up" %>
+      </div>
+      <p class="mt-4 font-semibold"><%= t(".heading") %></p>
+      <p class="mt-1 max-w-xs text-sm text-base-content/60 text-pretty"><%= t(".description") %></p>
+      <%= link_to admin_imports_path, class: "btn btn-sm btn-ghost mt-4" do %>
+        <%= render "shared/icons/arrow_up_tray" %> <%= t(".action") %>
+      <% end %>
+    </div>
+  </div>
+</section>

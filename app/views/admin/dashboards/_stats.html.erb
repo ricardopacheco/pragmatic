@@ -1,0 +1,21 @@
+<div id="dashboard_stats" class="stats stats-vertical w-full border border-base-300 bg-base-100 shadow-sm sm:stats-horizontal">
+  <div class="stat">
+    <div class="stat-figure text-3xl text-base-content/30"><%= render "shared/icons/users" %></div>
+    <div class="stat-title"><%= t(".total_users") %></div>
+    <div id="total_users_count" class="stat-value"><%= number_with_delimiter(dashboard.total_users) %></div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-3xl text-base-content/30"><%= render "shared/icons/shield_check" %></div>
+    <div class="stat-title"><%= t(".admins") %></div>
+    <div id="admins_count" class="stat-value"><%= number_with_delimiter(dashboard.admins_count) %></div>
+    <div class="stat-desc"><%= t(".percentage", value: dashboard.admins_percentage) %></div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-figure text-3xl text-base-content/30"><%= render "shared/icons/user" %></div>
+    <div class="stat-title"><%= t(".users") %></div>
+    <div id="regular_users_count" class="stat-value"><%= number_with_delimiter(dashboard.profiles_count) %></div>
+    <div class="stat-desc"><%= t(".percentage", value: dashboard.profiles_percentage) %></div>
+  </div>
+</div>
