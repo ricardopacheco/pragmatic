@@ -1,0 +1,66 @@
+name: pragmatic
+
+# One file, three profiles, so nothing starts unless it is asked for:
+#
+#   export RAILS_MASTER_KEY=$(cat config/master.key)
+#   docker compose --profile app up --build          the application on http://localhost:8080
+#   docker compose --profile test run --rm test      the whole bin/ci pipeline
+#
+
+services:
+  app:
+    profiles: [app]
+    build:
+      context: .
+      target: production
+    ports:
+      - "8080:80"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+    volumes:
+      - storage:/usr/src/app/storage
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/up"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+  server:
+    profiles: [dev]
+    build:
+      context: .
+      target: development
+    user: "${COMPOSE_UID:-0}:${COMPOSE_GID:-0}"
+    command: bash -c "rm -f tmp/pids/server.pid && bin/rails db:prepare && bin/rails server -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+    volumes:
+      - .:/usr/src/app
+      - gems-data:/usr/local/bundle
+  frontend:
+    profiles: [dev]
+    build:
+      context: .
+      target: development
+    user: "${COMPOSE_UID:-0}:${COMPOSE_GID:-0}"
+    command: bin/rails tailwindcss:watch[always]
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+    volumes:
+      - .:/usr/src/app
+      - gems-data:/usr/local/bundle
+  test:
+    profiles: [test]
+    build:
+      context: .
+      target: test
+    environment:
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+    # Chromium crashes with the default 64MB of shared memory.
+    shm_size: "1gb"
+
+volumes:
+  storage:
+  gems-data:
