@@ -1,0 +1,33 @@
+en:
+  activerecord:
+    models:
+      user:
+        one: "User"
+        other: "Users"
+      session:
+        one: "Session"
+        other: "Sessions"
+      import:
+        one: "Import"
+        other: "Imports"
+    attributes:
+      user:
+        full_name: "Full name"
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        role: "Role"
+        avatar_image: "Avatar image"
+      session:
+        ip_address: "IP address"
+        user_agent: "User agent"
+      import:
+        status: "Status"
+        total_rows: "Total rows"
+        succeeded_rows: "Succeeded rows"
+        failed_rows: "Failed rows"
+        failure_reason: "Failure reason"
+        row_errors: "Row errors"
+        started_at: "Started at"
+        finished_at: "Finished at"
+        spreadsheet: "Spreadsheet"

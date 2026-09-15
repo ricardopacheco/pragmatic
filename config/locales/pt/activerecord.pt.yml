@@ -1,0 +1,33 @@
+pt:
+  activerecord:
+    models:
+      user:
+        one: "Usuário"
+        other: "Usuários"
+      session:
+        one: "Sessão"
+        other: "Sessões"
+      import:
+        one: "Importação"
+        other: "Importações"
+    attributes:
+      user:
+        full_name: "Nome completo"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmação de senha"
+        role: "Papel"
+        avatar_image: "Imagem do avatar"
+      session:
+        ip_address: "Endereço IP"
+        user_agent: "Navegador"
+      import:
+        status: "Status"
+        total_rows: "Total de linhas"
+        succeeded_rows: "Linhas importadas"
+        failed_rows: "Linhas com falha"
+        failure_reason: "Motivo da falha"
+        row_errors: "Erros por linha"
+        started_at: "Iniciada em"
+        finished_at: "Finalizada em"
+        spreadsheet: "Planilha"
