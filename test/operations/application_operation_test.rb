@@ -131,4 +131,26 @@ class ApplicationOperationTest < ActiveSupport::TestCase
     assert_predicate result, :success?
     assert_equal user, result.value!
   end
+
+  test "delete_user_on_database fails when the record cannot be destroyed" do
+    user = create(:user)
+    user.stubs(:destroy).returns(false)
+    user.errors.add(:base, I18n.t("errors.messages.invalid"))
+
+    result = @operation.call(:delete_user_on_database, user)
+
+    assert_predicate result, :failure?
+    assert_includes result.failure[:base], I18n.t("errors.messages.invalid")
+  end
+
+  test "delete_user_on_database succeeds and removes the user" do
+    user = create(:user)
+    result = nil
+
+    assert_difference -> { User.count }, -1 do
+      result = @operation.call(:delete_user_on_database, user)
+    end
+
+    assert_predicate result, :success?
+  end
 end

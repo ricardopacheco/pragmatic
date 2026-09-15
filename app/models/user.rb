@@ -4,7 +4,6 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :sessions, -> { order(created_at: :desc) }, dependent: :destroy
-  has_many :imports, dependent: :destroy
 
   has_one_attached :avatar_image do |attachable|
     attachable.variant :thumb, resize_to_fill: [72, 72, {crop: :attention}], format: :webp, preprocessed: true
