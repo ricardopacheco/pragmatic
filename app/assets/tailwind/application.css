@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+/*
+ * daisyUI (standalone build, no Node.js). To upgrade:
+ *   curl -sSfLo app/assets/tailwind/daisyui.mjs https://github.com/saadeghi/daisyui/releases/download/v<version>/daisyui.mjs
+ */
+@source not "./daisyui{,*}.mjs";
+@plugin "./daisyui.mjs";
