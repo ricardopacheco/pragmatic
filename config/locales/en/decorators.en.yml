@@ -1,0 +1,15 @@
+en:
+  decorators:
+    user:
+      roles:
+        admin: "Admin"
+        profile: "User"
+    import:
+      statuses:
+        queued: "Queued"
+        processing: "Processing"
+        completed: "Completed"
+        completed_with_errors: "Completed with errors"
+        failed: "Failed"
+    session:
+      unknown_browser: "Unknown browser"
