@@ -1,0 +1,10 @@
+en:
+  shared:
+    # Shown on the submit button while the form is being sent (data-turbo-submits-with).
+    submitting:
+      signing_in: "Signing in…"
+      creating_account: "Creating account…"
+      sending: "Sending…"
+      saving: "Saving…"
+      uploading: "Uploading…"
+      deleting: "Deleting…"

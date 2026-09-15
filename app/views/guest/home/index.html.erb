@@ -1,0 +1,15 @@
+<% content_for :title, t(".title") %>
+
+<section class="max-w-xl text-center">
+  <span class="badge badge-soft badge-primary"><%= t(".badge") %></span>
+  <h1 class="mt-4 text-4xl font-bold tracking-tight text-balance sm:text-5xl">
+    <%= t(".heading") %>
+  </h1>
+  <p class="mt-4 text-lg text-base-content/70 text-pretty">
+    <%= t(".subheading") %>
+  </p>
+  <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+    <%= link_to t(".sign_up"), new_registration_path, class: "btn btn-primary" %>
+    <%= link_to t(".sign_in"), new_session_path, class: "btn btn-ghost" %>
+  </div>
+</section>

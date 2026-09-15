@@ -1,0 +1,41 @@
+pt:
+  guest:
+    sessions:
+      create:
+        success: "Bem-vindo de volta!"
+        rate_limited: "Muitas tentativas. Tente novamente mais tarde."
+      destroy:
+        success: "Você saiu da sua conta."
+    registrations:
+      create:
+        success: "Sua conta foi criada."
+    passwords:
+      create:
+        success: "Enviamos as instruções de redefinição (se existir uma conta com esse e-mail)."
+        rate_limited: "Muitas tentativas. Tente novamente mais tarde."
+      update:
+        success: "Sua senha foi redefinida. Entre com a nova senha."
+  profile:
+    profiles:
+      update:
+        success: "Seu perfil foi atualizado."
+      destroy:
+        success: "Sua conta foi excluída."
+    passwords:
+      update:
+        success: "Sua senha foi atualizada."
+  admin:
+    unauthorized: "Você não tem acesso à área administrativa."
+    users:
+      create:
+        success: "Usuário criado."
+      update:
+        success: "Usuário atualizado."
+      destroy:
+        success: "Usuário excluído."
+    roles:
+      update:
+        success: "O papel de %{name} foi atualizado."
+    imports:
+      create:
+        success: "Importação iniciada. Você pode acompanhar o progresso aqui."

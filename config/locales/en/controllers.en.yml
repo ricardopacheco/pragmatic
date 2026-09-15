@@ -1,0 +1,41 @@
+en:
+  guest:
+    sessions:
+      create:
+        success: "Welcome back!"
+        rate_limited: "Too many attempts. Try again later."
+      destroy:
+        success: "You have been signed out."
+    registrations:
+      create:
+        success: "Your account has been created."
+    passwords:
+      create:
+        success: "Password reset instructions sent (if an account with that email exists)."
+        rate_limited: "Too many attempts. Try again later."
+      update:
+        success: "Your password has been reset. Sign in with your new password."
+  profile:
+    profiles:
+      update:
+        success: "Your profile was updated."
+      destroy:
+        success: "Your account has been deleted."
+    passwords:
+      update:
+        success: "Your password was updated."
+  admin:
+    unauthorized: "You don't have access to the administration area."
+    users:
+      create:
+        success: "User created."
+      update:
+        success: "User updated."
+      destroy:
+        success: "User deleted."
+    roles:
+      update:
+        success: "%{name}'s role was updated."
+    imports:
+      create:
+        success: "Import started. You can follow the progress here."
