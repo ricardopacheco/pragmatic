@@ -56,7 +56,6 @@ group :development do
   gem "brakeman", "8.0.6", require: false
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", "0.9.3", require: false
-  gem "rack-mini-profiler", "5.0.0", require: false
   gem "rubycritic", "5.0.0", require: false
   # Standard runs RuboCop with a fixed ruleset; the plugins add the Rails and
   # performance cops on top of it.

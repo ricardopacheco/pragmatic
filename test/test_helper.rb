@@ -16,6 +16,7 @@ end
 require_relative "../config/environment"
 require "rails/test_help"
 require_relative "test_helpers/session_test_helper"
+require "mocha/minitest"
 
 module ActiveSupport
   class TestCase
@@ -32,8 +33,10 @@ module ActiveSupport
       SimpleCov.result
     end
 
-    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-    fixtures :all
+    include FactoryBot::Syntax::Methods
+    include ActionDispatch::TestProcess::FixtureFile
+    include ActiveJob::TestHelper
+    include ActionMailer::TestHelper
 
     # Add more helper methods to be used by all tests here...
   end
