@@ -2,7 +2,7 @@ require "test_helper"
 
 module Guest
   class SessionsControllerTest < ActionDispatch::IntegrationTest
-    setup { @user = User.take }
+    setup { @user = create(:user, password: "password") }
 
     test "new" do
       get new_session_path
