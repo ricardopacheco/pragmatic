@@ -1,0 +1,21 @@
+en:
+  guest:
+    passwords_mailer:
+      reset:
+        subject: "Reset your password"
+        heading: "Reset your password"
+        greeting: "Hi %{name},"
+        explanation: "We received a request to reset the password for your Pragmatic account. Use the link below to choose a new one."
+        action: "Reset password"
+        expiration: "This link expires in 15 minutes. If you didn't ask to reset your password, you can safely ignore this email."
+        fallback: "If the button doesn't work, copy and paste this link into your browser:"
+  mailers:
+    layout:
+      disclaimer: "You're receiving this email because of activity on your Pragmatic account."
+      copyright: "© %{year} Pragmatic"
+  account_mailer:
+    deleted:
+      subject: "Your Pragmatic account was deleted"
+      heading: "Your account was deleted"
+      greeting: "Hi %{name},"
+      explanation: "Your Pragmatic account and all of its data have been permanently removed. If you were not expecting this, reply to this email and we will look into it."

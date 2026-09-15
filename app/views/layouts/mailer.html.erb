@@ -1,13 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style>
-      /* Email styles need to be inline */
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="margin: 0; padding: 0; background-color: #f8f8f8; color: #18181b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f8f8f8;">
+      <tr>
+        <td align="center" style="padding: 32px 16px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 560px;">
+            <tr>
+              <td style="padding: 0 0 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td width="32" height="32" align="center" style="width: 32px; height: 32px; border-radius: 4px; background-color: #422ad5; color: #e0e7ff; font-size: 16px; font-weight: 600; line-height: 32px;">F</td>
+                    <td style="padding-left: 8px; font-size: 18px; font-weight: 600; color: #18181b;">Pragmatic</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding: 32px; border: 1px solid #eeeeee; border-radius: 8px; background-color: #ffffff; font-size: 15px; line-height: 24px;">
+                <%= yield %>
+              </td>
+            </tr>
+
+            <tr>
+              <td align="center" style="padding: 24px 16px 0; color: #71717a; font-size: 12px; line-height: 18px;">
+                <%= t("mailers.layout.disclaimer") %><br>
+                <%= t("mailers.layout.copyright", year: Time.current.year) %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
