@@ -1,0 +1,45 @@
+en:
+  layouts:
+    profile:
+      account_menu: "Account menu"
+      my_profile: "My profile"
+      sign_out: "Sign out"
+  profile:
+    profiles:
+      show:
+        title: "My profile · Pragmatic"
+        member_since: "Member since %{date}"
+        edit: "Edit profile"
+        sessions:
+          title: "Active sessions"
+          description: "Devices currently signed in to your account."
+          current: "This device"
+        delete:
+          title: "Delete account"
+          description: "Permanently remove your account and all of its data."
+          action: "Delete account"
+          confirm_title: "Delete your account?"
+          confirm_description: "This action cannot be undone. Your profile and avatar will be permanently removed."
+          cancel: "Cancel"
+          close: "Close"
+      edit:
+        title: "Edit profile · Pragmatic"
+        heading: "Edit profile"
+        back: "Back to profile"
+        profile_section: "Profile information"
+        avatar: "Avatar"
+        avatar_hint: "PNG, JPG or WebP up to 5 MB"
+        remove_avatar: "Remove current avatar"
+        full_name: "Full name"
+        full_name_hint: "Enter your full name"
+        email: "Email"
+        email_hint: "Enter a valid email address"
+        cancel: "Cancel"
+        save: "Save changes"
+        password_section: "Password"
+        password_hint: "Use at least %{count} characters."
+        current_password: "Current password"
+        current_password_hint: "Enter your current password"
+        new_password: "New password"
+        confirm_password: "Confirm new password"
+        update_password: "Update password"

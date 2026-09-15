@@ -1,0 +1,9 @@
+<div class="avatar <%= "avatar-placeholder" unless user.avatar? %>">
+  <div class="<%= css %> rounded-full bg-base-300 text-base-content">
+    <% if user.avatar? %>
+      <%= image_tag user.avatar_variant(size), alt: user.full_name %>
+    <% else %>
+      <span><%= user.initials %></span>
+    <% end %>
+  </div>
+</div>

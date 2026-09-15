@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <%= render "layouts/shared/head" %>
+  </head>
+
+  <body class="flex min-h-dvh flex-col bg-base-200">
+    <% user = Profile::UserDecorator.new(Current.user) %>
+
+    <header class="navbar border-b border-base-300 bg-base-100 px-4 sm:px-6">
+      <div class="flex-1">
+        <%= link_to profile_path, class: "flex items-center gap-2 text-lg font-semibold" do %>
+          <span class="grid size-8 place-items-center rounded-field bg-primary text-primary-content">F</span>
+          Pragmatic
+        <% end %>
+      </div>
+
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost gap-3 px-2" aria-label="<%= t(".account_menu") %>">
+          <span class="hidden text-sm font-medium sm:inline"><%= user.full_name %></span>
+          <%= render "shared/avatar", user:, size: :thumb, css: "w-8" %>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu z-10 mt-2 w-56 rounded-box border border-base-300 bg-base-100 p-2 shadow-lg">
+          <li class="menu-title">
+            <span class="text-base-content"><%= user.full_name %></span>
+            <span class="font-normal"><%= user.email %></span>
+          </li>
+          <li>
+            <%= link_to profile_path do %>
+              <%= render "shared/icons/user_circle" %> <%= t(".my_profile") %>
+            <% end %>
+          </li>
+          <li>
+            <%= button_to session_path, method: :delete, class: "flex w-full items-center gap-2" do %>
+              <%= render "shared/icons/arrow_right_start_on_rectangle" %> <%= t(".sign_out") %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-3xl flex-1 px-4 py-8 sm:px-6">
+      <%= yield %>
+    </main>
+
+    <%= render "shared/flash_container" %>
+  </body>
+</html>

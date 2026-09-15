@@ -37,4 +37,20 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def perform_all_enqueued_jobs
     perform_enqueued_jobs while enqueued_jobs.any?
   end
+
+  # Filling the form is the only way a real browser gets a session cookie, so every
+  # signed-in scenario starts here.
+  def sign_in_as(user, password: "password")
+    visit new_session_path
+
+    fill_in I18n.t("guest.sessions.new.email"), with: user.email
+    fill_in I18n.t("guest.sessions.new.password"), with: password
+    click_on I18n.t("guest.sessions.new.submit")
+
+    # Waits for the redirect to land, so a test that navigates right after signing
+    # in does not race the visit it is about to make.
+    assert_text I18n.t("guest.sessions.create.success")
+
+    user
+  end
 end
