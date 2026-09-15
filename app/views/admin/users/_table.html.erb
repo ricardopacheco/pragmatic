@@ -1,0 +1,16 @@
+<div class="overflow-x-auto">
+  <table class="table table-sm sm:table-md">
+    <thead>
+      <tr>
+        <th><%= t(".user") %></th>
+        <th><%= t(".admin") %></th>
+        <th class="hidden md:table-cell"><%= t(".joined") %></th>
+        <th><span class="sr-only"><%= t(".actions") %></span></th>
+      </tr>
+    </thead>
+
+    <tbody id="users_list">
+      <%= render partial: "admin/users/user", collection: users, as: :user %>
+    </tbody>
+  </table>
+</div>

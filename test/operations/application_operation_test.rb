@@ -132,6 +132,28 @@ class ApplicationOperationTest < ActiveSupport::TestCase
     assert_equal user, result.value!
   end
 
+  test "find_and_validate_user_admin fails when the admin does not exist" do
+    result = @operation.call(:find_and_validate_user_admin, nil)
+
+    assert_predicate result, :failure?
+    assert_equal I18n.t("operations.base.admin_not_found"), result.failure[:base]
+  end
+
+  test "find_and_validate_user_admin fails when the user is not an admin" do
+    result = @operation.call(:find_and_validate_user_admin, create(:user).id)
+
+    assert_predicate result, :failure?
+    assert_equal I18n.t("operations.base.user_is_not_admin"), result.failure[:base]
+  end
+
+  test "find_and_validate_user_admin succeeds for an admin" do
+    admin = create(:user, :admin)
+    result = @operation.call(:find_and_validate_user_admin, admin.id)
+
+    assert_predicate result, :success?
+    assert_equal admin, result.value!
+  end
+
   test "delete_user_on_database fails when the record cannot be destroyed" do
     user = create(:user)
     user.stubs(:destroy).returns(false)

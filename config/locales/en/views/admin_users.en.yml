@@ -1,0 +1,68 @@
+en:
+  admin:
+    users:
+      index:
+        title: "Users · Pragmatic"
+        heading: "Users"
+        subheading: "Manage accounts and roles"
+        import: "Import"
+        new_user: "New user"
+        search: "Search users"
+        search_placeholder: "Search by name or email"
+        filter: "Filter by role"
+        all: "All"
+        admins: "Admins"
+        users: "Users"
+      table:
+        user: "User"
+        admin: "Admin"
+        joined: "Joined"
+        actions: "Actions"
+      user:
+        you: "You"
+        toggle: "Admin role for %{name}"
+        edit: "Edit %{name}"
+        delete: "Delete %{name}"
+      pagination:
+        showing: "Showing %{range} of %{total}"
+        pagination: "Pagination"
+        previous: "Previous page"
+        next: "Next page"
+      empty:
+        heading: "No users found"
+        description: "Try a different search, or add people one by one or from a spreadsheet."
+        import: "Import spreadsheet"
+        new_user: "New user"
+      delete_modal:
+        title: "Delete this user?"
+        description: "The account, its avatar and every spreadsheet import it uploaded will be permanently removed. This action cannot be undone."
+        cancel: "Cancel"
+        confirm: "Delete user"
+        close: "Close"
+      form:
+        errors: "%{count} errors prevented this user from being saved"
+        full_name: "Full name"
+        full_name_hint: "Enter the full name"
+        email: "Email"
+        email_hint: "Enter a valid email address"
+        avatar: "Avatar"
+        optional: "(optional)"
+        avatar_hint: "PNG, JPG or WebP up to 5 MB"
+        remove_avatar: "Remove current avatar"
+        administrator: "Administrator"
+        administrator_hint: "Can manage users and import spreadsheets"
+        password: "Password"
+        password_hint: "At least %{count} characters"
+        password_optional: "Leave blank to keep the current password"
+        password_confirmation: "Confirm password"
+        cancel: "Cancel"
+      new:
+        title: "New user · Pragmatic"
+        users: "Users"
+        heading: "New user"
+        submit: "Create user"
+      edit:
+        title: "Edit %{name} · Pragmatic"
+        users: "Users"
+        heading: "Edit user"
+        submit: "Save changes"

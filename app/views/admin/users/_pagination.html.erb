@@ -1,0 +1,31 @@
+<% pages = (total.to_f / per_page).ceil %>
+<% first = ((page - 1) * per_page) + 1 %>
+<% last = [ page * per_page, total ].min %>
+
+<div class="flex flex-col items-center justify-between gap-3 border-t border-base-300 p-4 sm:flex-row">
+  <p class="text-sm text-base-content/60">
+    <%= t(".showing", range: "#{first}–#{last}", total: number_with_delimiter(total)) %>
+  </p>
+
+  <nav class="join" aria-label="<%= t(".pagination") %>">
+    <% if page > 1 %>
+      <%= link_to admin_users_path(page: page - 1, query: params[:query], role: params[:role]),
+                  class: "btn join-item btn-sm", "aria-label": t(".previous") do %>
+        <%= render "shared/icons/chevron_left" %>
+      <% end %>
+    <% end %>
+
+    <% (1..pages).each do |number| %>
+      <%= link_to number, admin_users_path(page: number, query: params[:query], role: params[:role]),
+                  class: class_names("btn join-item btn-sm", "btn-active": number == page),
+                  "aria-current": ("page" if number == page) %>
+    <% end %>
+
+    <% if page < pages %>
+      <%= link_to admin_users_path(page: page + 1, query: params[:query], role: params[:role]),
+                  class: "btn join-item btn-sm", "aria-label": t(".next") do %>
+        <%= render "shared/icons/chevron_right" %>
+      <% end %>
+    <% end %>
+  </nav>
+</div>

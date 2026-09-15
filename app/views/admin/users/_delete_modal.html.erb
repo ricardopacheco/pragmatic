@@ -1,0 +1,21 @@
+<dialog data-dialog-target="dialog" class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box">
+    <div class="flex gap-4">
+      <div class="grid size-10 shrink-0 place-items-center rounded-full bg-error/10 text-xl text-error">
+        <%= render "shared/icons/exclamation_triangle" %>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold"><%= t(".title") %></h3>
+        <p class="mt-1 text-sm text-base-content/70"><%= t(".description") %></p>
+        <p data-dialog-target="name" class="mt-2 font-medium"></p>
+      </div>
+    </div>
+    <div class="modal-action">
+      <form method="dialog"><button class="btn btn-ghost"><%= t(".cancel") %></button></form>
+      <%= button_to t(".confirm"), admin_users_path, method: :delete,
+                    form: { data: { dialog_target: "form" } }, class: "btn btn-error",
+                    data: { turbo_submits_with: t("shared.submitting.deleting") } %>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button><%= t(".close") %></button></form>
+</dialog>
