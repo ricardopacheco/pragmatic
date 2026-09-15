@@ -1,0 +1,13 @@
+pt:
+  operations:
+    base:
+      user_not_found: "Usuário não encontrado"
+      admin_not_found: "Administrador não encontrado"
+      user_is_not_admin: "O usuário não é administrador"
+      user_is_not_profile: "O usuário não é um usuário comum"
+    admin:
+      process_import:
+        import_not_found: "Importação não encontrada"
+        unsupported_format: "Formato de arquivo não suportado"
+        unreadable_file: "Não foi possível ler o arquivo"
+        missing_headers: "Cabeçalhos ausentes: %{headers}"
