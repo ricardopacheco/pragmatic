@@ -1,0 +1,14 @@
+# Default scope is the code we author. Tests are deliberately repetitive (failure
+# cases first, one condition per test), and db/schema.rb is generated, so measuring
+# them as defects inverts our own rules.
+#
+# To look at everything on purpose, pass the paths and neutralize the threshold —
+# the whole project scores 84.82 and would always trip the minimum below:
+#
+#   bin/rubycritic app test config db -s 0
+paths:
+  - app
+
+minimum_score: 90
+
+no_browser: true

@@ -1,0 +1,28 @@
+# Reek runs as part of RubyCritic.
+detectors:
+  # Asks for a comment above every class and module, which fires on nearly every
+  # file here and buries the findings that matter.
+  IrresponsibleModule:
+    enabled: false
+
+  # Fires whenever a controller sets an ivar in one action and not in another, which
+  # is how every Rails controller works. 16 of 70 warnings were this, burying signal.
+  InstanceVariableAssumption:
+    enabled: false
+
+directories:
+  # Operations and broadcast jobs have no state by design: they take everything as
+  # arguments and their private methods are pure transformations. "Does not depend on
+  # instance state" describes the pattern here, it does not diagnose a defect. Kept
+  # enabled everywhere else, where it would be a real smell.
+  "app/operations":
+    UtilityFunction:
+      enabled: false
+  "app/jobs":
+    UtilityFunction:
+      enabled: false
+  # Same reasoning: the readers turn a row into attributes, taking everything as
+  # arguments.
+  "app/importers":
+    UtilityFunction:
+      enabled: false
