@@ -1,0 +1,12 @@
+en:
+  contracts:
+    errors:
+      custom:
+        macro:
+          email_format: "is not a valid email"
+          full_name_format: "must be between %{min} and %{max} characters"
+          password_format: "must be between %{min} and %{max} characters"
+        authentication:
+          invalid_credentials: "Invalid email or password"
+        password_reset:
+          invalid_token: "Password reset link is invalid or has expired"

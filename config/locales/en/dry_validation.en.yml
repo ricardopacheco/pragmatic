@@ -1,0 +1,4 @@
+en:
+  contracts:
+    errors:
+      acceptance: "must accept %{key}"
