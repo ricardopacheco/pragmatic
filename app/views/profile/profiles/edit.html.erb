@@ -1,0 +1,80 @@
+<% content_for :title, t(".title") %>
+
+<%= link_to profile_path, class: "link link-hover mb-2 inline-flex items-center gap-1 text-sm text-base-content/60" do %>
+  <%= render "shared/icons/chevron_left" %> <%= t(".back") %>
+<% end %>
+<h1 class="mb-6 text-2xl font-semibold"><%= t(".heading") %></h1>
+
+<%= form_with model: @form, url: profile_path, method: :patch, class: "card border border-base-300 bg-base-100 shadow-sm" do |form| %>
+  <div class="card-body gap-5">
+    <h2 class="card-title text-base"><%= t(".profile_section") %></h2>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend pt-0"><%= t(".avatar") %></legend>
+      <div class="mb-2 flex items-center gap-4">
+        <%= render "shared/avatar", user: Profile::UserDecorator.new(Current.user), size: :medium, css: "w-14" %>
+        <label class="label cursor-pointer gap-2">
+          <%= form.check_box :remove_avatar_image, class: "checkbox checkbox-sm" %>
+          <%= t(".remove_avatar") %>
+        </label>
+      </div>
+
+      <%= form.file_field :avatar_image, accept: "image/png,image/jpeg,image/webp", class: "file-input w-full" %>
+      <%= render "shared/field_error", form:, attribute: :avatar_image, hint: t(".avatar_hint") %>
+    </fieldset>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <fieldset class="fieldset">
+        <%= form.label :full_name, t(".full_name"), class: "fieldset-legend pt-0" %>
+        <%= form.text_field :full_name, class: "input validator w-full", autocomplete: "name", required: true %>
+        <%= render "shared/field_error", form:, attribute: :full_name, hint: t(".full_name_hint") %>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <%= form.label :email, t(".email"), class: "fieldset-legend pt-0" %>
+        <%= form.email_field :email, class: "input validator w-full", autocomplete: "email", required: true %>
+        <%= render "shared/field_error", form:, attribute: :email, hint: t(".email_hint") %>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="flex flex-col-reverse gap-2 border-t border-base-300 px-6 py-4 sm:flex-row sm:justify-end">
+    <%= link_to t(".cancel"), profile_path, class: "btn btn-ghost" %>
+    <%= form.submit t(".save"), class: "btn btn-primary",
+                    data: { turbo_submits_with: t("shared.submitting.saving") } %>
+  </div>
+<% end %>
+
+<%= form_with model: @password_form, url: profile_password_path, method: :patch, class: "card mt-6 border border-base-300 bg-base-100 shadow-sm" do |form| %>
+  <div class="card-body gap-5">
+    <div>
+      <h2 class="card-title text-base"><%= t(".password_section") %></h2>
+      <p class="text-sm text-base-content/60"><%= t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %></p>
+    </div>
+
+    <fieldset class="fieldset">
+      <%= form.label :current_password, t(".current_password"), class: "fieldset-legend pt-0" %>
+      <%= form.password_field :current_password, class: "input validator w-full sm:max-w-xs", autocomplete: "current-password", required: true %>
+      <%= render "shared/field_error", form:, attribute: :current_password, hint: t(".current_password_hint") %>
+    </fieldset>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <fieldset class="fieldset">
+        <%= form.label :password, t(".new_password"), class: "fieldset-legend pt-0" %>
+        <%= form.password_field :password, class: "input validator w-full", autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: true %>
+        <%= render "shared/field_error", form:, attribute: :password, hint: t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <%= form.label :password_confirmation, t(".confirm_password"), class: "fieldset-legend pt-0" %>
+        <%= form.password_field :password_confirmation, class: "input validator w-full", autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: true %>
+        <%= render "shared/field_error", form:, attribute: :password_confirmation, hint: t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="flex border-t border-base-300 px-6 py-4 sm:justify-end">
+    <%= form.submit t(".update_password"), class: "btn btn-primary w-full sm:w-auto",
+                    data: { turbo_submits_with: t("shared.submitting.saving") } %>
+  </div>
+<% end %>
