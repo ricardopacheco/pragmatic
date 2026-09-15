@@ -1,60 +1,91 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 module Guest
   class PasswordsControllerTest < ActionDispatch::IntegrationTest
     setup { @user = create(:user, password: "password") }
 
-    test "new" do
+    test "new renders the form" do
       get new_password_path
+
       assert_response :success
     end
 
-    test "create" do
-      post passwords_path, params: {email: @user.email}
-      assert_enqueued_email_with PasswordsMailer, :reset, args: [@user]
-      assert_redirected_to new_session_path
+    test "new redirects a signed-in user to their dashboard" do
+      sign_in_as(@user)
 
-      follow_redirect!
-      assert_notice "reset instructions sent"
+      get new_password_path
+
+      assert_redirected_to profile_path
     end
 
-    test "create for an unknown user redirects but sends no mail" do
-      post passwords_path, params: {email: "missing-user@example.com"}
-      assert_enqueued_emails 0
-      assert_redirected_to new_session_path
-
-      follow_redirect!
-      assert_notice "reset instructions sent"
-    end
-
-    test "edit" do
-      get edit_password_path(@user.password_reset_token)
-      assert_response :success
-    end
-
-    test "edit with invalid password reset token" do
-      get edit_password_path("invalid token")
-      assert_redirected_to new_password_path
-
-      follow_redirect!
-      assert_notice "reset link is invalid"
-    end
-
-    test "update with non matching passwords" do
-      token = @user.password_reset_token
-      assert_no_changes -> { @user.reload.password_digest } do
-        put password_path(token), params: {password: "no", password_confirmation: "match"}
-        assert_redirected_to edit_password_path(token)
+    test "create sends the reset email" do
+      assert_enqueued_emails 1 do
+        post passwords_path, params: {password: {email: @user.email}}
       end
 
-      follow_redirect!
-      assert_notice "Passwords did not match"
+      assert_redirected_to new_session_path
+      assert_equal I18n.t("guest.passwords.create.success"), flash[:notice]
     end
 
-    private
+    test "create says the same thing for an unknown email" do
+      assert_no_enqueued_emails do
+        post passwords_path, params: {password: {email: "notfound@example.com"}}
+      end
 
-    def assert_notice(text)
-      assert_select "div", /#{text}/
+      assert_redirected_to new_session_path
+      assert_equal I18n.t("guest.passwords.create.success"), flash[:notice]
+    end
+
+    test "create rejects an invalid email" do
+      post passwords_path, params: {password: {email: "invalid_email"}}
+
+      assert_response :unprocessable_entity
+    end
+
+    # See the note in the sessions controller test: the null store never lets the
+    # counter grow, so the threshold has to be simulated.
+    test "create redirects with an alert once the rate limit is reached" do
+      Rails.cache.stubs(:increment).returns(11)
+
+      assert_no_enqueued_emails do
+        post passwords_path, params: {password: {email: @user.email}}
+      end
+
+      assert_redirected_to new_password_path
+      assert_equal I18n.t("guest.passwords.create.rate_limited"), flash[:alert]
+    end
+
+    test "edit renders the form" do
+      get edit_password_path(@user.password_reset_token)
+
+      assert_response :success
+    end
+
+    test "update changes the password" do
+      patch password_path(@user.password_reset_token),
+        params: {password: {password: "new-password", password_confirmation: "new-password"}}
+
+      assert_redirected_to new_session_path
+      assert_equal I18n.t("guest.passwords.update.success"), flash[:notice]
+      assert @user.reload.authenticate("new-password")
+    end
+
+    test "update rejects an invalid token" do
+      patch password_path("invalid-token"),
+        params: {password: {password: "new-password", password_confirmation: "new-password"}}
+
+      assert_response :unprocessable_entity
+      assert @user.reload.authenticate("password")
+    end
+
+    test "update rejects a confirmation that does not match" do
+      patch password_path(@user.password_reset_token),
+        params: {password: {password: "new-password", password_confirmation: "different"}}
+
+      assert_response :unprocessable_entity
+      assert @user.reload.authenticate("password")
     end
   end
 end

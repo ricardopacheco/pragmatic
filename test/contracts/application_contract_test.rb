@@ -79,6 +79,16 @@ class ApplicationContractTest < ActiveSupport::TestCase
     assert_nil result.errors[:password_confirmation]
   end
 
+  test "messages follow the current locale" do
+    I18n.with_locale(:pt) do
+      result = @contract.call(email: "invalid_email")
+      required = Guest::RequestPasswordResetContract.new.call({})
+
+      assert_equal ["não é um e-mail válido"], result.errors[:email]
+      assert_includes required.errors[:email], "não foi informado"
+    end
+  end
+
   test "macros skip optional keys that were not sent" do
     result = @contract.call({})
 

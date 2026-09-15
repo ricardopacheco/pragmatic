@@ -1,6 +1,20 @@
-<p>
-  You can reset your password on
-  <%= link_to "this password reset page", edit_password_url(@user.password_reset_token) %>.
+<h1 style="margin: 0 0 16px; font-size: 22px; font-weight: 600; line-height: 30px; color: #18181b;"><%= t(".heading") %></h1>
 
-  This link will expire in <%= distance_of_time_in_words(0, @user.password_reset_token_expires_in) %>.
+<p style="margin: 0 0 16px;"><%= t(".greeting", name: @user.full_name) %></p>
+
+<p style="margin: 0 0 24px;"><%= t(".explanation") %></p>
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 0 0 24px;">
+  <tr>
+    <td align="center" bgcolor="#422ad5" style="border-radius: 4px;">
+      <a href="<%= edit_password_url(@user.password_reset_token) %>" target="_blank" style="display: inline-block; padding: 12px 24px; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none;"><%= t(".action") %></a>
+    </td>
+  </tr>
+</table>
+
+<p style="margin: 0 0 24px; color: #71717a; font-size: 14px; line-height: 22px;"><%= t(".expiration") %></p>
+
+<p style="margin: 0; padding-top: 16px; border-top: 1px solid #eeeeee; color: #71717a; font-size: 12px; line-height: 18px;">
+  <%= t(".fallback") %><br>
+  <a href="<%= edit_password_url(@user.password_reset_token) %>" target="_blank" style="color: #422ad5; word-break: break-all;"><%= edit_password_url(@user.password_reset_token) %></a>
 </p>

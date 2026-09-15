@@ -1,40 +1,46 @@
 # frozen_string_literal: true
 
 module Guest
-  class PasswordsController < ApplicationController
-    allow_unauthenticated_access
-    before_action :set_user_by_token, only: %i[edit update]
-    rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to new_password_path, alert: "Try again later." }
+  class PasswordsController < BaseController
+    rate_limit to: 10, within: 3.minutes, only: :create,
+      with: -> { redirect_to new_password_path, alert: t("guest.passwords.create.rate_limited") }
 
     def new
+      @form = RequestPasswordResetForm.new
     end
 
     def create
-      if (user = User.find_by(email: params[:email]))
-        PasswordsMailer.reset(user).deliver_later
-      end
+      @form = RequestPasswordResetForm.new(email_params)
 
-      redirect_to new_session_path, notice: "Password reset instructions sent (if user with that email address exists)."
+      if @form.submit
+        redirect_to new_session_path, notice: t(".success")
+      else
+        render :new, status: :unprocessable_content
+      end
     end
 
     def edit
+      @form = ResetPasswordForm.new(token: params[:token])
     end
 
     def update
-      if @user.update(params.permit(:password, :password_confirmation))
-        @user.sessions.destroy_all
-        redirect_to new_session_path, notice: "Password has been reset."
+      @form = ResetPasswordForm.new(password_params.merge(token: params[:token]))
+
+      if @form.submit
+        redirect_to new_session_path, notice: t(".success")
       else
-        redirect_to edit_password_path(params[:token]), alert: "Passwords did not match."
+        render :edit, status: :unprocessable_content
       end
     end
 
     private
 
-    def set_user_by_token
-      @user = User.find_by_password_reset_token!(params[:token])
-    rescue ActiveSupport::MessageVerifier::InvalidSignature
-      redirect_to new_password_path, alert: "Password reset link is invalid or has expired."
+    def email_params
+      params.expect(password: [:email])
+    end
+
+    def password_params
+      params.expect(password: %i[password password_confirmation])
     end
   end
 end

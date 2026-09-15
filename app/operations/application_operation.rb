@@ -39,4 +39,18 @@ class ApplicationOperation
 
     Failure(user.errors.to_hash)
   end
+
+  def update_user_on_database(user, attributes)
+    return Success(user) if user.update(attributes)
+
+    Failure(user.errors.to_hash)
+  end
+
+  def find_user(id)
+    user = User.find_by(id:)
+
+    return Failure(base: I18n.t("#{I18N_SCOPE}.user_not_found")) if user.blank?
+
+    Success(user)
+  end
 end
