@@ -1,0 +1,86 @@
+<%= form_with model: form_object, url:, method:, class: "card max-w-3xl border border-base-300 bg-base-100 shadow-sm" do |form| %>
+  <div class="card-body gap-5">
+    <% if form_object.errors.any? %>
+      <div role="alert" class="alert alert-error alert-soft items-start">
+        <%= render "shared/icons/x_circle" %>
+        <div>
+          <h2 class="font-medium"><%= t("admin.users.form.errors", count: form_object.errors.size) %></h2>
+          <ul class="mt-1 list-inside list-disc text-sm">
+            <% form_object.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <fieldset class="fieldset">
+        <%= form.label :full_name, t("admin.users.form.full_name"), class: "fieldset-legend pt-0" %>
+        <%= form.text_field :full_name, class: class_names("input w-full", "input-error": form_object.errors[:full_name].any?, validator: form_object.errors[:full_name].empty?), required: true %>
+        <%= render "shared/field_error", form:, attribute: :full_name, hint: t("admin.users.form.full_name_hint") %>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <%= form.label :email, t("admin.users.form.email"), class: "fieldset-legend pt-0" %>
+        <%= form.email_field :email, class: class_names("input w-full", "input-error": form_object.errors[:email].any?, validator: form_object.errors[:email].empty?), required: true %>
+        <%= render "shared/field_error", form:, attribute: :email, hint: t("admin.users.form.email_hint") %>
+      </fieldset>
+    </div>
+
+    <fieldset class="fieldset">
+      <legend class="fieldset-legend pt-0">
+        <%= t("admin.users.form.avatar") %>
+        <% unless form_object.respond_to?(:remove_avatar_image) %>
+          <span class="font-normal text-base-content/50"><%= t("admin.users.form.optional") %></span>
+        <% end %>
+      </legend>
+
+      <% if form_object.respond_to?(:remove_avatar_image) && form_object.user %>
+        <div class="mb-2 flex items-center gap-4">
+          <%= render "shared/avatar", user: Admin::UserDecorator.new(form_object.user), size: :medium, css: "w-14" %>
+          <label class="label cursor-pointer gap-2">
+            <%= form.check_box :remove_avatar_image, class: "checkbox checkbox-sm" %>
+            <%= t("admin.users.form.remove_avatar") %>
+          </label>
+        </div>
+      <% end %>
+
+      <%= form.file_field :avatar_image, accept: "image/png,image/jpeg,image/webp", class: "file-input w-full" %>
+      <%= render "shared/field_error", form:, attribute: :avatar_image, hint: t("admin.users.form.avatar_hint") %>
+    </fieldset>
+
+    <label class="flex cursor-pointer items-center justify-between gap-4 rounded-box border border-base-300 p-4">
+      <span>
+        <span class="block font-medium"><%= t("admin.users.form.administrator") %></span>
+        <span class="block text-sm text-base-content/60"><%= t("admin.users.form.administrator_hint") %></span>
+      </span>
+      <%= form.hidden_field :role, value: "profile" %>
+      <%= check_box_tag "user[role]", "admin", form_object.role == "admin", class: "toggle toggle-primary", id: nil %>
+    </label>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <fieldset class="fieldset">
+        <%= form.label :password, t("admin.users.form.password"), class: "fieldset-legend pt-0" %>
+        <%= form.password_field :password, class: "input validator w-full", autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: password_required %>
+        <% if password_required %>
+          <%= render "shared/field_error", form:, attribute: :password, hint: t("admin.users.form.password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+        <% else %>
+          <p class="label"><%= t("admin.users.form.password_optional") %></p>
+        <% end %>
+      </fieldset>
+
+      <fieldset class="fieldset">
+        <%= form.label :password_confirmation, t("admin.users.form.password_confirmation"), class: "fieldset-legend pt-0" %>
+        <%= form.password_field :password_confirmation, class: "input validator w-full", autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: password_required %>
+        <%= render "shared/field_error", form:, attribute: :password_confirmation, hint: t("admin.users.form.password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="flex flex-col-reverse gap-2 border-t border-base-300 px-6 py-4 sm:flex-row sm:justify-end">
+    <%= link_to t("admin.users.form.cancel"), admin_users_path, class: "btn btn-ghost" %>
+    <%= form.submit submit_label, class: "btn btn-primary",
+                    data: { turbo_submits_with: t("shared.submitting.saving") } %>
+  </div>
+<% end %>
