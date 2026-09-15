@@ -1,0 +1,45 @@
+pt:
+  layouts:
+    profile:
+      account_menu: "Menu da conta"
+      my_profile: "Meu perfil"
+      sign_out: "Sair"
+  profile:
+    profiles:
+      show:
+        title: "Meu perfil · Pragmatic"
+        member_since: "Membro desde %{date}"
+        edit: "Editar perfil"
+        sessions:
+          title: "Sessões ativas"
+          description: "Dispositivos conectados à sua conta agora."
+          current: "Este dispositivo"
+        delete:
+          title: "Excluir conta"
+          description: "Remove sua conta e todos os seus dados definitivamente."
+          action: "Excluir conta"
+          confirm_title: "Excluir sua conta?"
+          confirm_description: "Esta ação não pode ser desfeita. Seu perfil e seu avatar serão removidos definitivamente."
+          cancel: "Cancelar"
+          close: "Fechar"
+      edit:
+        title: "Editar perfil · Pragmatic"
+        heading: "Editar perfil"
+        back: "Voltar ao perfil"
+        profile_section: "Dados do perfil"
+        avatar: "Avatar"
+        avatar_hint: "PNG, JPG ou WebP de até 5 MB"
+        remove_avatar: "Remover o avatar atual"
+        full_name: "Nome completo"
+        full_name_hint: "Informe seu nome completo"
+        email: "E-mail"
+        email_hint: "Informe um e-mail válido"
+        cancel: "Cancelar"
+        save: "Salvar alterações"
+        password_section: "Senha"
+        password_hint: "Use no mínimo %{count} caracteres."
+        current_password: "Senha atual"
+        current_password_hint: "Informe sua senha atual"
+        new_password: "Nova senha"
+        confirm_password: "Confirmação da nova senha"
+        update_password: "Atualizar senha"
