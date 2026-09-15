@@ -25,6 +25,20 @@ module Profile
       end
     end
 
+    def destroy
+      DeleteProfileOperation.call(Current.user.id) do |result|
+        result.success do
+          cookies.delete(:session_id)
+
+          redirect_to root_path, notice: t(".success")
+        end
+
+        result.failure do |errors|
+          redirect_to profile_path, alert: Array(errors.values).flatten.to_sentence
+        end
+      end
+    end
+
     private
 
     def profile_params

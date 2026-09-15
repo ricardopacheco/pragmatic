@@ -99,6 +99,18 @@ class ProfileTest < ApplicationSystemTestCase
     assert_current_path profile_path
   end
 
+  test "the user deletes the account after confirming" do
+    sign_in_as @user
+
+    click_on I18n.t("profile.profiles.show.delete.action")
+
+    within("dialog") { click_on I18n.t("profile.profiles.show.delete.action") }
+
+    assert_text I18n.t("profile.profiles.destroy.success")
+    assert_current_path root_path
+    assert_nil User.find_by(id: @user.id)
+  end
+
   private
 
   def fill_in_password(current_password: "password", password: "brand-new-password",

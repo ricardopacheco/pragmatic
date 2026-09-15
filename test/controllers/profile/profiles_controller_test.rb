@@ -50,5 +50,32 @@ module Profile
       assert_response :unprocessable_entity
       assert_equal "jane@example.com", @user.reload.email
     end
+
+    test "destroy deletes the account and signs the user out" do
+      sign_in_as(@user)
+
+      assert_difference -> { User.count }, -1 do
+        delete profile_path
+      end
+
+      assert_redirected_to root_path
+      assert_equal I18n.t("profile.profiles.destroy.success"), flash[:notice]
+      assert_predicate cookies[:session_id], :blank?
+    end
+
+    test "destroy keeps the user signed in and shows the error when it fails" do
+      sign_in_as(@user)
+      User.any_instance.stubs(:destroy).returns(false)
+      errors = ActiveModel::Errors.new(User.new)
+      errors.add(:base, I18n.t("errors.messages.invalid"))
+      User.any_instance.stubs(:errors).returns(errors)
+
+      assert_no_difference -> { User.count } do
+        delete profile_path
+      end
+
+      assert_redirected_to profile_path
+      assert_equal I18n.t("errors.messages.invalid"), flash[:alert]
+    end
   end
 end

@@ -22,13 +22,47 @@
       <% end %>
     </div>
   </div>
+</div>
 
-  <section class="card mt-6 border border-base-300 bg-base-100 shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title text-base"><%= t(".sessions.title") %></h2>
-      <p class="text-sm text-base-content/60"><%= t(".sessions.description") %></p>
+<section class="card mt-6 border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title text-base"><%= t(".sessions.title") %></h2>
+    <p class="text-sm text-base-content/60"><%= t(".sessions.description") %></p>
 
-      <%= render "profile/profiles/sessions_list", sessions: @sessions %>
+    <%= render "profile/profiles/sessions_list", sessions: @sessions %>
+  </div>
+</section>
+
+<div data-controller="dialog">
+  <section class="card mt-6 border border-error/30 bg-base-100">
+    <div class="card-body gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="font-semibold"><%= t(".delete.title") %></h2>
+        <p class="text-sm text-base-content/60"><%= t(".delete.description") %></p>
+      </div>
+      <button type="button" class="btn btn-error btn-outline" data-action="click->dialog#open">
+        <%= render "shared/icons/trash" %> <%= t(".delete.action") %>
+      </button>
     </div>
   </section>
+
+  <dialog data-dialog-target="dialog" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+      <div class="flex gap-4">
+        <div class="grid size-10 shrink-0 place-items-center rounded-full bg-error/10 text-xl text-error">
+          <%= render "shared/icons/exclamation_triangle" %>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold"><%= t(".delete.confirm_title") %></h3>
+          <p class="mt-1 text-sm text-base-content/70"><%= t(".delete.confirm_description") %></p>
+        </div>
+      </div>
+      <div class="modal-action">
+        <form method="dialog"><button class="btn btn-ghost"><%= t(".delete.cancel") %></button></form>
+        <%= button_to t(".delete.action"), profile_path, method: :delete, class: "btn btn-error",
+                      data: { turbo_submits_with: t("shared.submitting.deleting") } %>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop"><button><%= t(".delete.close") %></button></form>
+  </dialog>
 </div>

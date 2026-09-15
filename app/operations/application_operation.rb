@@ -64,4 +64,17 @@ class ApplicationOperation
 
     Success(user)
   end
+
+  def delete_user_on_database(user)
+    return Success(user) if user.destroy
+
+    Failure(user.errors.to_hash)
+  end
+
+  # Called outside the transaction: an email about a deletion that rolled back would
+  # be worse than a missing one. The destroyed record still carries its attributes in
+  # memory, which is all the mailer needs.
+  def send_account_deleted_email(user)
+    AccountMailer.deleted(full_name: user.full_name, email: user.email).deliver_later
+  end
 end
