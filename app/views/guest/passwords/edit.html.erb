@@ -1,21 +1,42 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <% if alert = flash[:alert] %>
-    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="alert"><%= alert %></p>
-  <% end %>
+<% content_for :title, t(".title") %>
 
-  <h1 class="font-bold text-4xl">Update your password</h1>
+<div class="w-full max-w-sm">
+  <div class="mb-6 text-center">
+    <h1 class="text-2xl font-semibold"><%= t(".heading") %></h1>
+    <p class="mt-1 text-sm text-base-content/60"><%= t(".subheading", count: Rails.configuration.x.validations.password_length.min) %></p>
+  </div>
 
-  <%= form_with url: password_path(params[:token]), method: :put, class: "contents" do |form| %>
-    <div class="my-5">
-      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  <div class="card border border-base-300 bg-base-100 shadow-sm">
+    <div class="card-body">
+      <%= form_with model: @form, url: password_path(params[:token]), method: :patch, class: "flex flex-col gap-4" do |form| %>
+        <% if @form.errors[:base].any? %>
+          <div role="alert" class="alert alert-error alert-soft">
+            <%= render "shared/icons/x_circle" %>
+            <span><%= @form.errors[:base].to_sentence %></span>
+          </div>
+        <% end %>
+
+        <fieldset class="fieldset">
+          <%= form.label :password, t(".password"), class: "fieldset-legend pt-0" %>
+          <label class="input validator w-full">
+            <%= render "shared/icons/lock_closed" %>
+            <%= form.password_field :password, autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: true, autofocus: true %>
+          </label>
+          <%= render "shared/field_error", form: form, attribute: :password, hint: t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <%= form.label :password_confirmation, t(".password_confirmation"), class: "fieldset-legend pt-0" %>
+          <label class="input validator w-full">
+            <%= render "shared/icons/lock_closed" %>
+            <%= form.password_field :password_confirmation, autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: true %>
+          </label>
+          <%= render "shared/field_error", form: form, attribute: :password_confirmation, hint: t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+        </fieldset>
+
+        <%= form.submit t(".submit"), class: "btn btn-primary w-full",
+                        data: { turbo_submits_with: t("shared.submitting.saving") } %>
+      <% end %>
     </div>
-
-    <div class="my-5">
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-solid focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
-
-    <div class="inline">
-      <%= form.submit "Save", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-    </div>
-  <% end %>
+  </div>
 </div>
