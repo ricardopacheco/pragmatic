@@ -1,0 +1,68 @@
+pt:
+  admin:
+    users:
+      index:
+        title: "Usuários · Pragmatic"
+        heading: "Usuários"
+        subheading: "Gerencie contas e papéis"
+        import: "Importar"
+        new_user: "Novo usuário"
+        search: "Buscar usuários"
+        search_placeholder: "Buscar por nome ou e-mail"
+        filter: "Filtrar por papel"
+        all: "Todos"
+        admins: "Administradores"
+        users: "Usuários"
+      table:
+        user: "Usuário"
+        admin: "Admin"
+        joined: "Entrou em"
+        actions: "Ações"
+      user:
+        you: "Você"
+        toggle: "Papel de administrador de %{name}"
+        edit: "Editar %{name}"
+        delete: "Excluir %{name}"
+      pagination:
+        showing: "Mostrando %{range} de %{total}"
+        pagination: "Paginação"
+        previous: "Página anterior"
+        next: "Próxima página"
+      empty:
+        heading: "Nenhum usuário encontrado"
+        description: "Tente outra busca, ou adicione pessoas uma a uma ou por planilha."
+        import: "Importar planilha"
+        new_user: "Novo usuário"
+      delete_modal:
+        title: "Excluir este usuário?"
+        description: "A conta, o avatar e todas as importações enviadas por ela serão removidos definitivamente. Esta ação não pode ser desfeita."
+        cancel: "Cancelar"
+        confirm: "Excluir usuário"
+        close: "Fechar"
+      form:
+        errors: "%{count} erros impediram que este usuário fosse salvo"
+        full_name: "Nome completo"
+        full_name_hint: "Informe o nome completo"
+        email: "E-mail"
+        email_hint: "Informe um e-mail válido"
+        avatar: "Avatar"
+        optional: "(opcional)"
+        avatar_hint: "PNG, JPG ou WebP de até 5 MB"
+        remove_avatar: "Remover o avatar atual"
+        administrator: "Administrador"
+        administrator_hint: "Pode gerenciar usuários e importar planilhas"
+        password: "Senha"
+        password_hint: "No mínimo %{count} caracteres"
+        password_optional: "Deixe em branco para manter a senha atual"
+        password_confirmation: "Confirmação da senha"
+        cancel: "Cancelar"
+      new:
+        title: "Novo usuário · Pragmatic"
+        users: "Usuários"
+        heading: "Novo usuário"
+        submit: "Criar usuário"
+      edit:
+        title: "Editar %{name} · Pragmatic"
+        users: "Usuários"
+        heading: "Editar usuário"
+        submit: "Salvar alterações"

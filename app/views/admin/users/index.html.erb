@@ -1,0 +1,49 @@
+<% content_for :title, t(".title") %>
+<% content_for :section, "users" %>
+<%= turbo_stream_from "admin_users" %>
+
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold"><%= t(".heading") %></h1>
+    <p class="text-sm text-base-content/60"><%= t(".subheading") %></p>
+  </div>
+  <div class="flex gap-2">
+    <%= link_to admin_imports_path, class: "btn btn-ghost flex-1 sm:flex-none" do %>
+      <%= render "shared/icons/arrow_up_tray" %> <%= t(".import") %>
+    <% end %>
+    <%= link_to new_admin_user_path, class: "btn btn-primary flex-1 sm:flex-none" do %>
+      <%= render "shared/icons/plus" %> <%= t(".new_user") %>
+    <% end %>
+  </div>
+</div>
+
+<div data-controller="dialog">
+  <turbo-frame id="users" data-turbo-action="advance" class="card block border border-base-300 bg-base-100 shadow-sm">
+  <div class="flex flex-col gap-3 border-b border-base-300 p-4 sm:flex-row sm:items-center sm:justify-between">
+    <%= form_with url: admin_users_path, method: :get, role: "search", class: "w-full sm:max-w-xs" do |form| %>
+      <%= form.hidden_field :role, value: params[:role] %>
+      <label class="input w-full">
+        <%= render "shared/icons/magnifying_glass" %>
+        <%= form.search_field :query, value: params[:query], placeholder: t(".search_placeholder"), "aria-label": t(".search"),
+                              data: { controller: "auto-submit", auto_submit_delay_value: 300, action: "input->auto-submit#submit" } %>
+      </label>
+    <% end %>
+
+    <nav role="tablist" aria-label="<%= t(".filter") %>" class="tabs tabs-box tabs-sm self-start sm:self-auto">
+      <% { nil => t(".all"), "admin" => t(".admins"), "profile" => t(".users") }.each do |role, label| %>
+        <%= link_to label, admin_users_path(role:, query: params[:query]), role: "tab",
+                    class: class_names("tab", "tab-active": params[:role].presence == role),
+                    "aria-selected": params[:role].presence == role %>
+      <% end %>
+    </nav>
+  </div>
+
+  <%= @presenter.render_users %>
+
+    <% if @total > Admin::UsersController::PER_PAGE %>
+      <%= render "admin/users/pagination", page: @page, total: @total, per_page: Admin::UsersController::PER_PAGE %>
+    <% end %>
+  </turbo-frame>
+
+  <%= render "admin/users/delete_modal" %>
+</div>

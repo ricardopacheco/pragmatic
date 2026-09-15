@@ -54,6 +54,15 @@ class ApplicationOperation
     Success(user)
   end
 
+  def find_and_validate_user_admin(id)
+    user = User.find_by(id:)
+
+    return Failure(base: I18n.t("#{I18N_SCOPE}.admin_not_found")) if user.blank?
+    return Failure(base: I18n.t("#{I18N_SCOPE}.user_is_not_admin")) unless user.admin?
+
+    Success(user)
+  end
+
   # A new file replaces the current avatar, so the removal only applies when no file
   # was sent. Runs after the update, and only purges after the commit.
   def remove_avatar_image(user, validated)

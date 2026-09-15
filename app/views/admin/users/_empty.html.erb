@@ -1,0 +1,15 @@
+<div class="flex flex-col items-center px-6 py-16 text-center">
+  <div class="grid size-14 place-items-center rounded-full bg-base-200 text-3xl text-base-content/50">
+    <%= render "shared/icons/users" %>
+  </div>
+  <h2 class="mt-4 text-lg font-semibold"><%= t(".heading") %></h2>
+  <p class="mt-1 max-w-sm text-sm text-base-content/60 text-pretty"><%= t(".description") %></p>
+  <div class="mt-6 flex flex-col gap-2 sm:flex-row">
+    <%= link_to admin_imports_path, class: "btn btn-ghost", data: { turbo_frame: "_top" } do %>
+      <%= render "shared/icons/arrow_up_tray" %> <%= t(".import") %>
+    <% end %>
+    <%= link_to new_admin_user_path, class: "btn btn-primary", data: { turbo_frame: "_top" } do %>
+      <%= render "shared/icons/plus" %> <%= t(".new_user") %>
+    <% end %>
+  </div>
+</div>

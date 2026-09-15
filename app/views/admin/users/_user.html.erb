@@ -1,0 +1,47 @@
+<tr id="<%= user.dom_id %>">
+  <td>
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:block">
+        <%= render "shared/avatar", user:, size: :thumb, css: "w-9 text-xs" %>
+      </div>
+      <div class="min-w-0">
+        <div class="flex items-center gap-2 font-medium">
+          <span class="truncate"><%= user.full_name %></span>
+          <%# Current.user is nil when this row is rendered from a background job. %>
+          <% if user.id == Current.user&.id %>
+            <span class="badge badge-ghost badge-xs"><%= t(".you") %></span>
+          <% end %>
+        </div>
+        <div class="max-w-40 truncate text-sm text-base-content/60 sm:max-w-none"><%= user.email %></div>
+      </div>
+    </div>
+  </td>
+
+  <td>
+    <%= form_with model: Admin::UpdateUserRoleForm.new(role: user.admin? ? "profile" : "admin"),
+                  url: admin_user_role_path(user.id), method: :patch, data: { turbo_frame: "_top" } do |form| %>
+      <%= form.hidden_field :role %>
+      <input type="checkbox" class="toggle toggle-primary toggle-sm" <%= "checked" if user.admin? %>
+             data-controller="auto-submit" data-action="change->auto-submit#submit"
+             aria-label="<%= t(".toggle", name: user.full_name) %>">
+    <% end %>
+  </td>
+
+  <td class="hidden text-base-content/60 md:table-cell"><%= user.joined_at %></td>
+
+  <td>
+    <div class="flex justify-end gap-1">
+      <%= link_to edit_admin_user_path(user.id), data: { turbo_frame: "_top" },
+                  class: "btn btn-square btn-ghost btn-sm", "aria-label": t(".edit", name: user.full_name) do %>
+        <%= render "shared/icons/pencil_square" %>
+      <% end %>
+      <button type="button" class="btn btn-square btn-ghost btn-sm text-error"
+              aria-label="<%= t(".delete", name: user.full_name) %>"
+              data-action="click->dialog#open"
+              data-dialog-url-param="<%= admin_user_path(user.id) %>"
+              data-dialog-name-param="<%= user.full_name %>">
+        <%= render "shared/icons/trash" %>
+      </button>
+    </div>
+  </td>
+</tr>
