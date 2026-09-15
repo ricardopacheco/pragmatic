@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <%= render "layouts/shared/head" %>
+  </head>
+
+  <body class="bg-base-200">
+    <% user = Admin::UserDecorator.new(Current.user) %>
+
+    <div class="drawer lg:drawer-open">
+      <input id="admin-drawer" type="checkbox" class="drawer-toggle">
+
+      <div class="drawer-content flex min-h-dvh flex-col">
+        <header class="navbar sticky top-0 z-10 border-b border-base-300 bg-base-100 px-4 sm:px-6">
+          <div class="flex flex-1 items-center gap-2">
+            <label for="admin-drawer" class="btn btn-square btn-ghost text-xl lg:hidden" aria-label="<%= t(".open_menu") %>">
+              <%= render "shared/icons/bars_3" %>
+            </label>
+            <%= link_to admin_dashboard_path, class: "flex items-center gap-2 text-lg font-semibold lg:hidden" do %>
+              <span class="grid size-8 place-items-center rounded-field bg-primary text-primary-content">F</span>
+              Pragmatic
+            <% end %>
+          </div>
+
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost gap-3 px-2" aria-label="<%= t(".account_menu") %>">
+              <span class="hidden text-sm font-medium sm:inline"><%= user.full_name %></span>
+              <%= render "shared/avatar", user:, size: :thumb, css: "w-8" %>
+            </div>
+            <ul tabindex="0" class="dropdown-content menu z-10 mt-2 w-56 rounded-box border border-base-300 bg-base-100 p-2 shadow-lg">
+              <li class="menu-title">
+                <span class="text-base-content"><%= user.full_name %></span>
+                <span class="font-normal"><%= user.email %></span>
+              </li>
+              <li>
+                <%= link_to profile_path do %>
+                  <%= render "shared/icons/user_circle" %> <%= t(".my_profile") %>
+                <% end %>
+              </li>
+              <li>
+                <%= button_to session_path, method: :delete, class: "flex w-full items-center gap-2" do %>
+                  <%= render "shared/icons/arrow_right_start_on_rectangle" %> <%= t(".sign_out") %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </header>
+
+        <main class="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+          <div class="mx-auto w-full max-w-6xl">
+            <%= yield %>
+          </div>
+        </main>
+      </div>
+
+      <div class="drawer-side z-20">
+        <label for="admin-drawer" class="drawer-overlay" aria-label="<%= t(".close_menu") %>"></label>
+        <aside class="flex min-h-full w-64 flex-col border-r border-base-300 bg-base-100">
+          <div class="flex h-16 items-center px-6">
+            <%= link_to admin_dashboard_path, class: "flex items-center gap-2 text-lg font-semibold" do %>
+              <span class="grid size-8 place-items-center rounded-field bg-primary text-primary-content">F</span>
+              Pragmatic
+            <% end %>
+            <span class="badge badge-soft badge-primary badge-sm ms-2"><%= t(".admin") %></span>
+          </div>
+
+          <nav aria-label="<%= t(".navigation") %>">
+            <%# Each page sets its section with content_for :section, "users" %>
+            <ul class="menu w-full gap-1 px-3 text-base [--menu-active-bg:color-mix(in_oklab,var(--color-primary)_10%,transparent)] [--menu-active-fg:var(--color-primary)]">
+              <li>
+                <%= link_to admin_dashboard_path, class: class_names("menu-active font-medium": content_for(:section) == "dashboard") do %>
+                  <%= render "shared/icons/squares_2x2" %> <%= t(".dashboard") %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to admin_users_path, class: class_names("menu-active font-medium": content_for(:section) == "users") do %>
+                  <%= render "shared/icons/users" %> <%= t(".users") %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to admin_imports_path, class: class_names("menu-active font-medium": content_for(:section) == "imports") do %>
+                  <%= render "shared/icons/arrow_up_tray" %> <%= t(".imports") %>
+                <% end %>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+      </div>
+    </div>
+
+    <%= render "shared/flash_container" %>
+  </body>
+</html>

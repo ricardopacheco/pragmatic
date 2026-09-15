@@ -1,0 +1,10 @@
+<section class="card border border-base-300 bg-base-100 shadow-sm lg:col-span-3">
+  <div class="card-body">
+    <div class="flex items-center justify-between">
+      <h2 class="card-title text-base"><%= t(".title") %></h2>
+      <%= link_to t(".view_all"), admin_users_path, class: "link link-hover link-primary text-sm" %>
+    </div>
+
+    <%= render "admin/dashboards/recent_users_list", users: %>
+  </div>
+</section>

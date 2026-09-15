@@ -3,8 +3,6 @@
 # Decides which partial the view renders. Data comes from the controller, already
 # decorated; the presenter never queries the database.
 class ApplicationPresenter
-  delegate :url_helpers, to: "Rails.application.routes"
-
   attr_reader :current_user
 
   def initialize(view_context, current_user, options = {})

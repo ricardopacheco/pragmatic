@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def presenter_class
+    "#{controller_path.camelize}Presenter".constantize
+  end
+
   def after_authentication_url
     session.delete(:return_to_after_authenticating) || dashboard_path_for(Current.user)
   end

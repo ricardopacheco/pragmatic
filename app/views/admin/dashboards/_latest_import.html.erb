@@ -1,0 +1,40 @@
+<section id="latest_import" class="card border border-base-300 bg-base-100 shadow-sm lg:col-span-2">
+  <div class="card-body">
+    <div class="flex items-center justify-between">
+      <h2 class="card-title text-base"><%= t(".title") %></h2>
+      <span class="badge <%= import.status_badge_class %> whitespace-nowrap">
+        <% if import.processing? %><span class="loading loading-spinner loading-xs"></span><% end %>
+        <%= import.status_label %>
+      </span>
+    </div>
+
+    <div class="mt-2 flex items-center gap-3">
+      <div class="grid size-10 shrink-0 place-items-center rounded-field bg-base-200 text-xl">
+        <%= render "shared/icons/document_arrow_up" %>
+      </div>
+      <div class="min-w-0">
+        <%= link_to import.filename, admin_import_path(import.id), class: "link link-hover block truncate font-medium" %>
+        <p class="text-sm text-base-content/60"><%= t(".started", time: import.started_at || import.status_label) %></p>
+      </div>
+    </div>
+
+    <progress class="progress progress-primary mt-4 w-full" value="<%= import.progress_percentage %>" max="100" aria-label="<%= t(".progress") %>"></progress>
+    <div class="flex justify-between text-sm text-base-content/60">
+      <span><%= t(".rows", processed: import.processed_rows, total: import.total_rows) %></span>
+      <span class="font-medium text-base-content"><%= import.progress_percentage %>%</span>
+    </div>
+
+    <div class="mt-2 flex gap-4 text-sm">
+      <span class="inline-flex items-center gap-1 text-success">
+        <%= render "shared/icons/check_circle" %> <%= t(".created", count: import.succeeded_rows) %>
+      </span>
+      <span class="inline-flex items-center gap-1 text-error">
+        <%= render "shared/icons/x_circle" %> <%= t(".failed", count: import.failed_rows) %>
+      </span>
+    </div>
+
+    <div class="card-actions mt-auto justify-end pt-4">
+      <%= link_to t(".view_all"), admin_imports_path, class: "link link-hover link-primary text-sm" %>
+    </div>
+  </div>
+</section>

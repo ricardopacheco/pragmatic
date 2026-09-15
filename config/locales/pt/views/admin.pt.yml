@@ -1,0 +1,41 @@
+pt:
+  layouts:
+    admin:
+      admin: "Admin"
+      navigation: "Administração"
+      dashboard: "Dashboard"
+      users: "Usuários"
+      imports: "Importações"
+      open_menu: "Abrir menu"
+      close_menu: "Fechar menu"
+      account_menu: "Menu da conta"
+      my_profile: "Meu perfil"
+      sign_out: "Sair"
+  admin:
+    dashboards:
+      show:
+        title: "Dashboard · Pragmatic"
+        heading: "Dashboard"
+        subheading: "Visão geral de usuários e importações"
+        import_users: "Importar usuários"
+      stats:
+        total_users: "Total de usuários"
+        admins: "Administradores"
+        users: "Usuários"
+        percentage: "%{value}% dos usuários"
+      latest_import:
+        title: "Última importação"
+        started: "Iniciada %{time}"
+        progress: "Progresso da importação"
+        rows: "%{processed} de %{total} linhas"
+        created: "%{count} criados"
+        failed: "%{count} com falha"
+        view_all: "Ver todas as importações"
+      no_imports:
+        title: "Última importação"
+        heading: "Nenhuma importação ainda"
+        description: "Traga vários usuários de uma vez a partir de uma planilha CSV ou XLSX."
+        action: "Iniciar uma importação"
+      recent_users:
+        title: "Usuários recentes"
+        view_all: "Ver todos"

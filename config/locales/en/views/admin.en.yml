@@ -1,0 +1,41 @@
+en:
+  layouts:
+    admin:
+      admin: "Admin"
+      navigation: "Admin"
+      dashboard: "Dashboard"
+      users: "Users"
+      imports: "Imports"
+      open_menu: "Open menu"
+      close_menu: "Close menu"
+      account_menu: "Account menu"
+      my_profile: "My profile"
+      sign_out: "Sign out"
+  admin:
+    dashboards:
+      show:
+        title: "Dashboard · Pragmatic"
+        heading: "Dashboard"
+        subheading: "Overview of users and imports"
+        import_users: "Import users"
+      stats:
+        total_users: "Total users"
+        admins: "Admins"
+        users: "Users"
+        percentage: "%{value}% of users"
+      latest_import:
+        title: "Latest import"
+        started: "Started %{time}"
+        progress: "Import progress"
+        rows: "%{processed} of %{total} rows"
+        created: "%{count} created"
+        failed: "%{count} failed"
+        view_all: "View all imports"
+      no_imports:
+        title: "Latest import"
+        heading: "No imports yet"
+        description: "Bring in many users at once from a CSV or XLSX spreadsheet."
+        action: "Start an import"
+      recent_users:
+        title: "Recent users"
+        view_all: "View all"

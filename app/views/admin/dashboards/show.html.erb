@@ -1,0 +1,20 @@
+<% content_for :title, t(".title") %>
+<% content_for :section, "dashboard" %>
+<%= turbo_stream_from "admin_dashboard" %>
+
+<div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold"><%= t(".heading") %></h1>
+    <p class="text-sm text-base-content/60"><%= t(".subheading") %></p>
+  </div>
+  <%= link_to admin_imports_path, class: "btn btn-primary" do %>
+    <%= render "shared/icons/arrow_up_tray" %> <%= t(".import_users") %>
+  <% end %>
+</div>
+
+<%= render "admin/dashboards/stats", dashboard: @dashboard %>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-5">
+  <%= @presenter.render_latest_import %>
+  <%= render "admin/dashboards/recent_users", users: @recent_users %>
+</div>

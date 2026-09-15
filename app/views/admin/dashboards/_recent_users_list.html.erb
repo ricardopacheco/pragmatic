@@ -1,0 +1,12 @@
+<ul id="recent_users" class="mt-2 divide-y divide-base-300">
+  <% users.each do |user| %>
+    <li class="flex items-center gap-3 py-3">
+      <%= render "shared/avatar", user:, size: :thumb, css: "w-9 text-xs" %>
+      <div class="min-w-0 flex-1">
+        <p class="truncate font-medium"><%= user.full_name %></p>
+        <p class="truncate text-sm text-base-content/60"><%= user.email %></p>
+      </div>
+      <span class="badge <%= user.role_badge_class %>"><%= user.role_label %></span>
+    </li>
+  <% end %>
+</ul>
