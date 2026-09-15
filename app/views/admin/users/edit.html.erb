@@ -1,0 +1,13 @@
+<% content_for :title, t(".title", name: @form.full_name) %>
+<% content_for :section, "users" %>
+
+<div class="breadcrumbs mb-1 text-sm text-base-content/60">
+  <ul>
+    <li><%= link_to t(".users"), admin_users_path %></li>
+    <li><%= @form.full_name %></li>
+  </ul>
+</div>
+<h1 class="mb-6 text-2xl font-semibold"><%= t(".heading") %></h1>
+
+<%= render "admin/users/form", form_object: @form, url: admin_user_path(@form.user), method: :patch,
+           password_required: false, submit_label: t(".submit") %>

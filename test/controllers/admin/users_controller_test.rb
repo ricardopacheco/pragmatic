@@ -62,5 +62,75 @@ module Admin
       assert_select "#users_list tr", UsersController::PER_PAGE
       assert_select "nav[aria-label=?] a", I18n.t("admin.users.pagination.pagination")
     end
+
+    test "create adds a user" do
+      assert_difference -> { User.count }, 1 do
+        post admin_users_path, params: {user: valid_attributes}
+      end
+
+      assert_redirected_to admin_users_path
+      assert_equal I18n.t("admin.users.create.success"), flash[:notice]
+      assert_predicate User.find_by(email: "jane@example.com"), :profile?
+    end
+
+    test "create rejects invalid data" do
+      assert_no_difference -> { User.count } do
+        post admin_users_path, params: {user: valid_attributes.merge(email: "invalid_email")}
+      end
+
+      assert_response :unprocessable_entity
+    end
+
+    test "edit renders the form with the user data" do
+      user = create(:user, full_name: "Jane Cooper")
+
+      get edit_admin_user_path(user)
+
+      assert_response :success
+      assert_select "input[value=?]", "Jane Cooper"
+    end
+
+    test "update changes the user" do
+      user = create(:user)
+
+      patch admin_user_path(user), params: {user: {full_name: "Jane C.", email: user.email, role: "admin"}}
+
+      assert_redirected_to admin_users_path
+      assert_equal "Jane C.", user.reload.full_name
+      assert_predicate user, :admin?
+    end
+
+    test "update rejects invalid data" do
+      user = create(:user, full_name: "Jane Cooper")
+      taken = create(:user)
+
+      patch admin_user_path(user), params: {user: {full_name: "Jane Cooper", email: taken.email, role: "profile"}}
+
+      assert_response :unprocessable_entity
+      assert_equal "Jane Cooper", user.reload.full_name
+    end
+
+    test "destroy deletes the user" do
+      user = create(:user)
+
+      assert_difference -> { User.count }, -1 do
+        delete admin_user_path(user)
+      end
+
+      assert_redirected_to admin_users_path
+      assert_equal I18n.t("admin.users.destroy.success"), flash[:notice]
+    end
+
+    private
+
+    def valid_attributes
+      {
+        full_name: "Jane Cooper",
+        email: "jane@example.com",
+        role: "profile",
+        password: "password",
+        password_confirmation: "password"
+      }
+    end
   end
 end
