@@ -1,0 +1,6 @@
+<% messages = form.object.errors[attribute] %>
+<% if messages.any? %>
+  <p class="label mt-1 text-error"><%= messages.to_sentence %></p>
+<% else %>
+  <p class="validator-hint hidden"><%= hint %></p>
+<% end %>

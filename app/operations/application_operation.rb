@@ -31,4 +31,12 @@ class ApplicationOperation
 
     Failure(result.errors.to_h)
   end
+
+  def create_user_on_database(attributes)
+    user = User.new(attributes)
+
+    return Success(user) if user.save
+
+    Failure(user.errors.to_hash)
+  end
 end

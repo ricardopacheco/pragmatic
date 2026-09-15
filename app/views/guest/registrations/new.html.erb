@@ -1,0 +1,75 @@
+<% content_for :title, t(".title") %>
+
+<div class="w-full max-w-md">
+  <div class="mb-6 text-center">
+    <h1 class="text-2xl font-semibold"><%= t(".heading") %></h1>
+    <p class="mt-1 text-sm text-base-content/60"><%= t(".subheading") %></p>
+  </div>
+
+  <div class="card border border-base-300 bg-base-100 shadow-sm">
+    <div class="card-body">
+      <%= form_with model: @form, url: registration_path, class: "flex flex-col gap-4" do |form| %>
+        <% if @form.errors[:base].any? %>
+          <div role="alert" class="alert alert-error alert-soft">
+            <%= render "shared/icons/x_circle" %>
+            <span><%= @form.errors[:base].to_sentence %></span>
+          </div>
+        <% end %>
+
+        <fieldset class="fieldset">
+          <%= form.label :full_name, t(".full_name"), class: "fieldset-legend pt-0" %>
+          <label class="input validator w-full">
+            <%= render "shared/icons/user" %>
+            <%= form.text_field :full_name, placeholder: t(".full_name_placeholder"), autocomplete: "name", required: true %>
+          </label>
+          <%= render "shared/field_error", form: form, attribute: :full_name, hint: t(".full_name_hint") %>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <%= form.label :email, t(".email"), class: "fieldset-legend pt-0" %>
+          <label class="input validator w-full">
+            <%= render "shared/icons/envelope" %>
+            <%= form.email_field :email, placeholder: t(".email_placeholder"), autocomplete: "email", required: true %>
+          </label>
+          <%= render "shared/field_error", form: form, attribute: :email, hint: t(".email_hint") %>
+        </fieldset>
+
+        <fieldset class="fieldset">
+          <%= form.label :avatar_image, class: "fieldset-legend pt-0" do %>
+            <%= t(".avatar") %> <span class="font-normal text-base-content/50"><%= t(".optional") %></span>
+          <% end %>
+          <%= form.file_field :avatar_image, accept: "image/png,image/jpeg,image/webp", class: "file-input w-full" %>
+          <%= render "shared/field_error", form: form, attribute: :avatar_image, hint: t(".avatar_hint") %>
+        </fieldset>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <fieldset class="fieldset">
+            <%= form.label :password, t(".password"), class: "fieldset-legend pt-0" %>
+            <label class="input validator w-full">
+              <%= render "shared/icons/lock_closed" %>
+              <%= form.password_field :password, autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: true %>
+            </label>
+            <%= render "shared/field_error", form: form, attribute: :password, hint: t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+          </fieldset>
+
+          <fieldset class="fieldset">
+            <%= form.label :password_confirmation, t(".password_confirmation"), class: "fieldset-legend pt-0" %>
+            <label class="input validator w-full">
+              <%= render "shared/icons/lock_closed" %>
+              <%= form.password_field :password_confirmation, autocomplete: "new-password", minlength: Rails.configuration.x.validations.password_length.min, required: true %>
+            </label>
+            <%= render "shared/field_error", form: form, attribute: :password_confirmation, hint: t(".password_hint", count: Rails.configuration.x.validations.password_length.min) %>
+          </fieldset>
+        </div>
+
+        <%= form.submit t(".submit"), class: "btn btn-primary mt-2 w-full",
+                        data: { turbo_submits_with: t("shared.submitting.creating_account") } %>
+      <% end %>
+    </div>
+  </div>
+
+  <p class="mt-6 text-center text-sm text-base-content/60">
+    <%= t(".have_account") %>
+    <%= link_to t(".sign_in"), new_session_path, class: "link link-hover link-primary font-medium" %>
+  </p>
+</div>
