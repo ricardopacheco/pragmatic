@@ -1,9 +1,11 @@
 # Run using bin/ci
 
 CI.run do
-  step "Setup", "bin/setup --skip-server"
+  # Was bin/setup --skip-server, which also installed gems and started a server. With Docker as the
+  # supported flow the gems come baked into the image, so all the pipeline still needs is a database.
+  step "Setup", "bin/rails db:prepare"
 
-  step "Style: Ruby", "bin/rubocop"
+  step "Style: Ruby", "bin/standardrb"
 
   step "Security: Gem audit", "bin/bundler-audit"
   step "Security: Importmap vulnerability audit", "bin/importmap audit"

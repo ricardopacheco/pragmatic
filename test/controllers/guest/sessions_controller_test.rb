@@ -10,7 +10,7 @@ module Guest
     end
 
     test "create with invalid credentials" do
-      post session_path, params: { email: @user.email, password: "wrong" }
+      post session_path, params: {email: @user.email, password: "wrong"}
 
       assert_redirected_to new_session_path
       assert_nil cookies[:session_id]

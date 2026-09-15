@@ -1,0 +1,13 @@
+# Standard is RuboCop with a fixed ruleset, so there is no house style to maintain
+# here. These plugins add the Rails and performance cops on top of it.
+plugins:
+  - standard-rails
+  - standard-performance
+
+ignore:
+  - "db/schema.rb"
+  - "vendor/**/*"
+  - "db/seeds.rb":
+      - Rails/Output
+  - "db/seeds/**/*.rb":
+      - Rails/Output
