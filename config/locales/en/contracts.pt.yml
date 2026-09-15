@@ -1,0 +1,12 @@
+pt:
+  contracts:
+    errors:
+      custom:
+        macro:
+          email_format: "não é um e-mail válido"
+          full_name_format: "deve ter entre %{min} e %{max} caracteres"
+          password_format: "deve ter entre %{min} e %{max} caracteres"
+        authentication:
+          invalid_credentials: "E-mail ou senha inválidos"
+        password_reset:
+          invalid_token: "O link de redefinição de senha é inválido ou expirou"

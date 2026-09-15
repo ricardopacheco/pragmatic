@@ -1,0 +1,74 @@
+pt:
+  contracts:
+    or: "ou"
+    errors:
+      unexpected_key: "não é permitido"
+      array?: "deve ser uma lista"
+      empty?: "deve estar vazio"
+      excludes?: "não deve incluir %{value}"
+      excluded_from?:
+        arg:
+          default: "não deve ser um de: %{list}"
+          range: "não deve estar entre: %{list_left} - %{list_right}"
+      exclusion?: "não deve ser um de: %{list}"
+      eql?: "deve ser igual a %{left}"
+      not_eql?: "não deve ser igual a %{left}"
+      filled?: "deve ser preenchido"
+      format?: "está em um formato inválido"
+      number?: "deve ser um número"
+      odd?: "deve ser ímpar"
+      even?: "deve ser par"
+      gt?: "deve ser maior que %{num}"
+      gteq?: "deve ser maior ou igual a %{num}"
+      hash?: "deve ser um hash"
+      included_in?:
+        arg:
+          default: "deve ser um de: %{list}"
+          range: "deve estar entre: %{list_left} - %{list_right}"
+      inclusion?: "deve ser um de: %{list}"
+      includes?: "deve incluir %{value}"
+      bool?: "deve ser booleano"
+      true?: "deve ser verdadeiro"
+      false?: "deve ser falso"
+      int?: "deve ser um número inteiro"
+      float?: "deve ser um número de ponto flutuante"
+      decimal?: "deve ser um número decimal"
+      date?: "deve ser uma data"
+      date_time?: "deve ser uma data e hora"
+      time?: "deve ser um horário"
+      key?: "não foi informado"
+      attr?: "não foi informado"
+      lt?: "deve ser menor que %{num}"
+      lteq?: "deve ser menor ou igual a %{num}"
+      max_size?: "o tamanho não pode ser maior que %{num}"
+      max_bytesize?: "o tamanho em bytes não pode ser maior que %{num}"
+      min_size?: "o tamanho não pode ser menor que %{num}"
+      min_bytesize?: "o tamanho em bytes não pode ser menor que %{num}"
+      nil?: "não pode ser definido"
+      str?: "deve ser um texto"
+      type?: "deve ser %{type}"
+      respond_to?: "deve responder a %{method}"
+      size?:
+        arg:
+          default: "o tamanho deve ser %{size}"
+          range: "o tamanho deve estar entre %{size_left} - %{size_right}"
+        value:
+          string:
+            arg:
+              default: "o comprimento deve ser %{size}"
+              range: "o comprimento deve estar entre %{size_left} - %{size_right}"
+      bytesize?:
+        arg:
+          default: "deve ter %{size} bytes"
+          range: "deve ter entre %{size_left} - %{size_right} bytes"
+      uri?: "não é uma URI válida"
+      uuid_v1?: "não é um UUID válido"
+      uuid_v2?: "não é um UUID válido"
+      uuid_v3?: "não é um UUID válido"
+      uuid_v4?: "não é um UUID válido"
+      uuid_v5?: "não é um UUID válido"
+      uuid_v6?: "não é um UUID válido"
+      uuid_v7?: "não é um UUID válido"
+      uuid_v8?: "não é um UUID válido"
+      not:
+        empty?: "não pode estar vazio"
