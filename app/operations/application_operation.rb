@@ -53,4 +53,15 @@ class ApplicationOperation
 
     Success(user)
   end
+
+  # A new file replaces the current avatar, so the removal only applies when no file
+  # was sent. Runs after the update, and only purges after the commit.
+  def remove_avatar_image(user, validated)
+    removing = validated[:remove_avatar_image] && validated[:avatar_image].blank?
+    avatar = user.avatar_image
+
+    avatar.purge_later if removing && avatar.attached?
+
+    Success(user)
+  end
 end

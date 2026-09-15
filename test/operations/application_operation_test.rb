@@ -73,6 +73,15 @@ class ApplicationOperationTest < ActiveSupport::TestCase
     assert_equal user, result.value!.context[:user]
   end
 
+  test "validate_contract forwards the context to the contract" do
+    user = create(:user, email: "jane@example.com")
+    attributes = {full_name: "Jane Cooper", email: "JANE@example.com"}
+
+    result = @operation.call(:validate_contract, Profile::UpdateProfileContract, attributes, user:)
+
+    assert_predicate result, :success?
+  end
+
   test "create_user_on_database fails with the model errors as a hash" do
     create(:user, email: "taken@example.com")
     result = @operation.call(:create_user_on_database, attributes_for(:user, email: "taken@example.com"))
