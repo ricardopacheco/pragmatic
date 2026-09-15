@@ -18,4 +18,17 @@ class ApplicationOperation
 
     Dry::Matcher::ResultMatcher.call(service, &block)
   end
+
+  private
+
+  # Returns the contract result itself, not only its attributes: operations also read
+  # what the contract already looked up (result.context[:user]), avoiding a second
+  # query or a second bcrypt round.
+  def validate_contract(contract_class, attributes, **context)
+    result = contract_class.new.call(attributes, **context)
+
+    return Success(result) if result.success?
+
+    Failure(result.errors.to_h)
+  end
 end

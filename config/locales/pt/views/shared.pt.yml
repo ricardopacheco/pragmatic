@@ -1,0 +1,10 @@
+pt:
+  shared:
+    # Exibido no botão enquanto o formulário é enviado (data-turbo-submits-with).
+    submitting:
+      signing_in: "Entrando…"
+      creating_account: "Criando conta…"
+      sending: "Enviando…"
+      saving: "Salvando…"
+      uploading: "Enviando…"
+      deleting: "Excluindo…"

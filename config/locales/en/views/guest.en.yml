@@ -1,0 +1,62 @@
+en:
+  guest:
+    home:
+      index:
+        title: "Pragmatic"
+        badge: "User management"
+        heading: "Your team, organized in one place"
+        subheading: "Manage users and roles, and import whole spreadsheets while you watch the progress live."
+        sign_up: "Create account"
+        sign_in: "Sign in"
+    sessions:
+      new:
+        title: "Sign in · Pragmatic"
+        heading: "Welcome back"
+        subheading: "Sign in to your account"
+        email: "Email"
+        email_placeholder: "you@example.com"
+        email_hint: "Enter a valid email address"
+        password: "Password"
+        password_hint: "Enter your password"
+        forgot_password: "Forgot password?"
+        submit: "Sign in"
+        no_account: "Don't have an account?"
+        sign_up: "Create one"
+    registrations:
+      new:
+        title: "Create account · Pragmatic"
+        heading: "Create your account"
+        subheading: "It only takes a minute"
+        full_name: "Full name"
+        full_name_placeholder: "Jane Cooper"
+        full_name_hint: "Enter your full name"
+        email: "Email"
+        email_placeholder: "you@example.com"
+        email_hint: "Enter a valid email address"
+        avatar: "Avatar"
+        optional: "(optional)"
+        avatar_hint: "PNG, JPG or WebP up to 5 MB"
+        password: "Password"
+        password_confirmation: "Confirm password"
+        password_hint: "At least %{count} characters"
+        submit: "Create account"
+        have_account: "Already have an account?"
+        sign_in: "Sign in"
+    passwords:
+      new:
+        title: "Forgot password · Pragmatic"
+        heading: "Forgot your password?"
+        subheading: "Enter your email and we'll send you a link to reset it"
+        email: "Email"
+        email_placeholder: "you@example.com"
+        email_hint: "Enter a valid email address"
+        submit: "Send reset link"
+        back: "Back to sign in"
+      edit:
+        title: "Reset password · Pragmatic"
+        heading: "Choose a new password"
+        subheading: "Make it at least %{count} characters long"
+        password: "New password"
+        password_confirmation: "Confirm new password"
+        password_hint: "At least %{count} characters"
+        submit: "Save new password"

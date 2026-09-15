@@ -1,0 +1,62 @@
+pt:
+  guest:
+    home:
+      index:
+        title: "Pragmatic"
+        badge: "Gestão de usuários"
+        heading: "Seu time, organizado em um só lugar"
+        subheading: "Gerencie usuários e papéis, e importe planilhas inteiras acompanhando o progresso ao vivo."
+        sign_up: "Criar conta"
+        sign_in: "Entrar"
+    sessions:
+      new:
+        title: "Entrar · Pragmatic"
+        heading: "Bem-vindo de volta"
+        subheading: "Entre na sua conta"
+        email: "E-mail"
+        email_placeholder: "voce@exemplo.com"
+        email_hint: "Informe um e-mail válido"
+        password: "Senha"
+        password_hint: "Informe sua senha"
+        forgot_password: "Esqueceu a senha?"
+        submit: "Entrar"
+        no_account: "Ainda não tem conta?"
+        sign_up: "Criar uma"
+    registrations:
+      new:
+        title: "Criar conta · Pragmatic"
+        heading: "Crie sua conta"
+        subheading: "Leva menos de um minuto"
+        full_name: "Nome completo"
+        full_name_placeholder: "Joana Cooper"
+        full_name_hint: "Informe seu nome completo"
+        email: "E-mail"
+        email_placeholder: "voce@exemplo.com"
+        email_hint: "Informe um e-mail válido"
+        avatar: "Avatar"
+        optional: "(opcional)"
+        avatar_hint: "PNG, JPG ou WebP de até 5 MB"
+        password: "Senha"
+        password_confirmation: "Confirmação da senha"
+        password_hint: "No mínimo %{count} caracteres"
+        submit: "Criar conta"
+        have_account: "Já tem uma conta?"
+        sign_in: "Entrar"
+    passwords:
+      new:
+        title: "Esqueci a senha · Pragmatic"
+        heading: "Esqueceu sua senha?"
+        subheading: "Informe seu e-mail e enviaremos um link para redefini-la"
+        email: "E-mail"
+        email_placeholder: "voce@exemplo.com"
+        email_hint: "Informe um e-mail válido"
+        submit: "Enviar link"
+        back: "Voltar para o login"
+      edit:
+        title: "Redefinir senha · Pragmatic"
+        heading: "Escolha uma nova senha"
+        subheading: "Use no mínimo %{count} caracteres"
+        password: "Nova senha"
+        password_confirmation: "Confirmação da nova senha"
+        password_hint: "No mínimo %{count} caracteres"
+        submit: "Salvar nova senha"

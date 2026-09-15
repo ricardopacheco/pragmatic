@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= render "layouts/shared/head" %>
+  </head>
+
+  <body class="flex min-h-dvh flex-col bg-base-200">
+    <header class="navbar px-4 sm:px-6">
+      <%= link_to root_path, class: "flex items-center gap-2 text-lg font-semibold" do %>
+        <span class="grid size-8 place-items-center rounded-field bg-primary text-primary-content">F</span>
+        Pragmatic
+      <% end %>
+    </header>
+
+    <main class="flex flex-1 items-center justify-center px-4 py-10 sm:px-6">
+      <%= yield %>
+    </main>
+
+    <footer class="px-4 py-6 text-center text-sm text-base-content/50">
+      &copy; 2026 Pragmatic
+    </footer>
+
+    <%= render "shared/flash_container" %>
+  </body>
+</html>
