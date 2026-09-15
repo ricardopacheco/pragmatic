@@ -6,6 +6,7 @@ CI.run do
   step "Setup", "bin/rails db:prepare"
 
   step "Style: Ruby", "bin/standardrb"
+  step "Quality: RubyCritic", "bin/rubycritic"
 
   step "Security: Gem audit", "bin/bundler-audit"
   step "Security: Importmap vulnerability audit", "bin/importmap audit"

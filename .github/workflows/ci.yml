@@ -44,6 +44,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          # RubyCritic reads churn from the git history: a shallow clone would leave
+          # it empty and the score would drift from what a local run reports.
+          fetch-depth: 0
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
