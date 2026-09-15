@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_15_122209) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_15_211440) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -39,6 +39,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_122209) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "imports", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "failed_rows", default: 0, null: false
+    t.string "failure_reason"
+    t.datetime "finished_at"
+    t.json "row_errors", default: [], null: false
+    t.datetime "started_at"
+    t.integer "status", default: 0, null: false
+    t.integer "succeeded_rows", default: 0, null: false
+    t.integer "total_rows", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["status"], name: "index_imports_on_status"
+    t.index ["user_id"], name: "index_imports_on_user_id"
+    t.check_constraint "failed_rows >= 0", name: "imports_failed_rows_check"
+    t.check_constraint "status BETWEEN 0 AND 4", name: "imports_status_check"
+    t.check_constraint "succeeded_rows >= 0", name: "imports_succeeded_rows_check"
+    t.check_constraint "total_rows >= 0", name: "imports_total_rows_check"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -62,5 +82,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_122209) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "imports", "users"
   add_foreign_key "sessions", "users"
 end
