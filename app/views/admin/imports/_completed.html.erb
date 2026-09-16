@@ -1,0 +1,27 @@
+<section id="<%= import.dom_id %>_progress" class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body">
+    <div class="flex flex-wrap items-end justify-between gap-2">
+      <div>
+        <p class="text-sm text-base-content/60"><%= t(".progress") %></p>
+        <p class="text-4xl font-semibold tabular-nums"><%= import.progress_percentage %>%</p>
+      </div>
+      <p class="text-sm text-base-content/60"><%= t(".finished", time: import.finished_at) %></p>
+    </div>
+    <progress class="progress progress-success mt-2 h-3 w-full" value="100" max="100" aria-label="<%= t(".progress") %>"></progress>
+  </div>
+</section>
+
+<%= render "admin/imports/stats", import: %>
+
+<section class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body flex-row items-center gap-4">
+    <div class="grid size-10 shrink-0 place-items-center rounded-full bg-success/10 text-xl text-success">
+      <%= render "shared/icons/check_circle" %>
+    </div>
+    <div class="flex-1">
+      <h2 class="font-semibold"><%= t(".heading") %></h2>
+      <p class="text-sm text-base-content/60"><%= t(".description", count: import.succeeded_rows) %></p>
+    </div>
+    <%= link_to t(".view_users"), admin_users_path, class: "btn btn-ghost btn-sm hidden sm:inline-flex" %>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+pt:
+  admin:
+    imports:
+      index:
+        title: "Importações · Pragmatic"
+        heading: "Importações"
+        subheading: "Crie usuários em massa a partir de uma planilha"
+        recent: "Importações recentes"
+      form:
+        title: "Nova importação"
+        spreadsheet: "Planilha"
+        hint: "CSV ou XLSX de até 10 MB. As linhas são processadas em segundo plano."
+        submit: "Iniciar importação"
+        columns: "Colunas esperadas"
+        columns_hint: "A primeira linha precisa conter os cabeçalhos."
+      table:
+        file: "Arquivo"
+        status: "Status"
+        progress: "Progresso"
+        results: "Resultados"
+      import:
+        not_started: "Ainda não iniciada"
+        progress: "Progresso da importação"
+        created: "%{count} criados"
+        failed: "%{count} com falha"
+      empty:
+        heading: "Nenhuma importação ainda"
+        description: "Envie um arquivo CSV ou XLSX para criar usuários em massa. Você acompanha o progresso aqui em tempo real."
+      show:
+        title: "%{name} · Pragmatic"
+        imports: "Importações"
+        uploaded_by: "Enviada por %{name}"
+      progress:
+        progress: "Progresso"
+        rows: "%{processed} de %{total} linhas"
+      stats:
+        total: "Total de linhas"
+        created: "Criados"
+        failed: "Com falha"
+        pending: "Pendentes"
+      completed:
+        progress: "Progresso"
+        finished: "Finalizada %{time}"
+        heading: "Todas as linhas importadas"
+        description: "%{count} usuários foram criados sem erros."
+        view_users: "Ver usuários"
+      failure:
+        heading: "Não foi possível processar o arquivo"
+        formats: "Formatos aceitos: .csv e .xlsx"
+        headers: "A primeira linha precisa conter os cabeçalhos: %{headers}"
+        retry: "Enviar um novo arquivo"
+      failures:
+        title: "Linhas com falha"
+        row: "Linha"
+        full_name: "Nome completo"
+        email: "E-mail"
+        errors: "Erros"

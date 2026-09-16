@@ -1,0 +1,16 @@
+<div class="overflow-x-auto">
+  <table class="table table-sm sm:table-md">
+    <thead>
+      <tr>
+        <th><%= t(".file") %></th>
+        <th><%= t(".status") %></th>
+        <th class="hidden sm:table-cell"><%= t(".progress") %></th>
+        <th class="hidden md:table-cell"><%= t(".results") %></th>
+      </tr>
+    </thead>
+
+    <tbody id="imports">
+      <%= render partial: "admin/imports/import", collection: imports, as: :import %>
+    </tbody>
+  </table>
+</div>

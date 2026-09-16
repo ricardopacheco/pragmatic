@@ -1,0 +1,18 @@
+<div id="<%= import.dom_id %>_stats" class="stats stats-vertical w-full border border-base-300 bg-base-100 shadow-sm sm:stats-horizontal">
+  <div class="stat">
+    <div class="stat-title"><%= t(".total") %></div>
+    <div class="stat-value text-2xl"><%= number_with_delimiter(import.total_rows) %></div>
+  </div>
+  <div class="stat">
+    <div class="stat-title"><%= t(".created") %></div>
+    <div class="stat-value text-2xl text-success"><%= number_with_delimiter(import.succeeded_rows) %></div>
+  </div>
+  <div class="stat">
+    <div class="stat-title"><%= t(".failed") %></div>
+    <div class="stat-value text-2xl <%= import.failed_rows.positive? ? "text-error" : "text-base-content/60" %>"><%= number_with_delimiter(import.failed_rows) %></div>
+  </div>
+  <div class="stat">
+    <div class="stat-title"><%= t(".pending") %></div>
+    <div class="stat-value text-2xl text-base-content/60"><%= number_with_delimiter(import.pending_rows) %></div>
+  </div>
+</div>

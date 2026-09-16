@@ -1,0 +1,38 @@
+<tr id="<%= import.dom_id %>">
+  <td>
+    <div class="flex items-center gap-3">
+      <div class="hidden size-9 shrink-0 place-items-center rounded-field bg-base-200 text-lg sm:grid">
+        <%= render "shared/icons/document_arrow_up" %>
+      </div>
+      <div class="min-w-0">
+        <%= link_to import.filename, admin_import_path(import.id), class: "link link-hover block max-w-44 truncate font-medium sm:max-w-none" %>
+        <div class="text-xs text-base-content/60 sm:text-sm"><%= import.started_at || t(".not_started") %></div>
+      </div>
+    </div>
+  </td>
+
+  <td>
+    <span class="badge <%= import.status_badge_class %> whitespace-nowrap">
+      <% if import.processing? %><span class="loading loading-spinner loading-xs"></span><% end %>
+      <%= import.status_label %>
+    </span>
+  </td>
+
+  <td class="hidden sm:table-cell">
+    <div class="flex items-center gap-3">
+      <progress class="progress w-16 lg:w-24" value="<%= import.progress_percentage %>" max="100" aria-label="<%= t(".progress") %>"></progress>
+      <span class="text-sm tabular-nums"><%= import.progress_percentage %>%</span>
+    </div>
+  </td>
+
+  <td class="hidden text-sm md:table-cell lg:whitespace-nowrap">
+    <% if import.failed? %>
+      <span class="text-error"><%= import.failure_reason %></span>
+    <% else %>
+      <span class="text-success"><%= t(".created", count: import.succeeded_rows) %></span>
+      <% if import.failed_rows.positive? %>
+        · <span class="text-error"><%= t(".failed", count: import.failed_rows) %></span>
+      <% end %>
+    <% end %>
+  </td>
+</tr>
