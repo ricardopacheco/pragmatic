@@ -59,6 +59,12 @@ module Guest
       assert_response :unprocessable_entity
     end
 
+    test "create enqueues the sessions broadcast job" do
+      assert_enqueued_with(job: Sessions::CreateSessionBroadcastJob, queue: "broadcast") do
+        post session_path, params: {session: {email: @user.email, password: "password"}}
+      end
+    end
+
     # The limiter counts in Rails.cache, which is a null store here: increment always
     # returns nil and the limit can never be reached. Stubbing it is what puts the
     # request past the threshold.
