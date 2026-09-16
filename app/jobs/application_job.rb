@@ -8,4 +8,16 @@ class ApplicationJob < ActiveJob::Base
 
   # Most jobs are safe to ignore if the underlying records are no longer available
   # discard_on ActiveJob::DeserializationError
+
+  def broadcast_sessions(user_id)
+    user = User.find_by(id: user_id)
+    return if user.blank?
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "user_#{user_id}_sessions",
+      target: "sessions",
+      partial: "profile/profiles/sessions_list",
+      locals: {sessions: SessionDecorator.wrap(user.sessions)}
+    )
+  end
 end

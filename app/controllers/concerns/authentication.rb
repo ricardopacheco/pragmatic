@@ -41,13 +41,16 @@ module Authentication
     user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
       Current.session = session
       cookies.signed.permanent[:session_id] = {value: session.id, httponly: true, same_site: :lax}
+      Sessions::CreateSessionBroadcastJob.perform_later(user.id)
     end
   end
 
   def terminate_session
     session = Current.session
+    user_id = session.user_id
 
     session.destroy
     cookies.delete(:session_id)
+    Sessions::DeleteSessionBroadcastJob.perform_later(user_id)
   end
 end

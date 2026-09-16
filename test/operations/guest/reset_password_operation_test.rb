@@ -51,6 +51,12 @@ module Guest
       end
     end
 
+    test "enqueues the sessions broadcast job" do
+      assert_enqueued_with(job: Sessions::DeleteSessionBroadcastJob, queue: "broadcast") do
+        @operation.call(valid_attributes)
+      end
+    end
+
     private
 
     def valid_attributes

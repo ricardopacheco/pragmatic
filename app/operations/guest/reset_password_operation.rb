@@ -24,7 +24,7 @@ module Guest
     def terminate_sessions(user)
       user.sessions.destroy_all
 
-      Success(user)
+      Success(Sessions::DeleteSessionBroadcastJob.perform_later(user.id))
     end
   end
 end
