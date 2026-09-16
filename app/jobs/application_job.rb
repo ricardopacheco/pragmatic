@@ -36,8 +36,33 @@ class ApplicationJob < ActiveJob::Base
     )
   end
 
+  def broadcast_latest_import
+    import = Import.latest.first
+
+    if import
+      Turbo::StreamsChannel.broadcast_replace_to(
+        DASHBOARD_STREAM,
+        target: "latest_import",
+        partial: "admin/dashboards/latest_import",
+        locals: {import: Admin::ImportDecorator.new(import)}
+      )
+    else
+      Turbo::StreamsChannel.broadcast_replace_to(
+        DASHBOARD_STREAM, target: "latest_import", partial: "admin/dashboards/no_imports"
+      )
+    end
+  end
+
   def broadcast_users_list(request_id = nil)
     refresh(USERS_STREAM, request_id)
+  end
+
+  def broadcast_imports_list(request_id = nil)
+    refresh(IMPORTS_STREAM, request_id)
+  end
+
+  def broadcast_import(import_id, request_id = nil)
+    refresh("import_#{import_id}", request_id)
   end
 
   def broadcast_sessions(user_id)

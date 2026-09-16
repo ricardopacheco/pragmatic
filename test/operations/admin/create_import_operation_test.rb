@@ -58,6 +58,14 @@ module Admin
       assert_predicate import.spreadsheet, :attached?
     end
 
+    test "enqueues the processing and the broadcast jobs" do
+      assert_enqueued_with(job: Admin::ProcessImportJob) do
+        assert_enqueued_with(job: Admin::CreateImportBroadcastJob, queue: "broadcast") do
+          @operation.call(@admin.id, spreadsheet: csv_upload)
+        end
+      end
+    end
+
     private
 
     def csv_upload

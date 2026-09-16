@@ -1,5 +1,6 @@
 <% content_for :title, t(".title", name: @import.filename) %>
 <% content_for :section, "imports" %>
+<%= turbo_stream_from "import_#{@import.id}" %>
 
 <div class="breadcrumbs mb-1 text-sm text-base-content/60">
   <ul>

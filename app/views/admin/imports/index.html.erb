@@ -1,5 +1,6 @@
 <% content_for :title, t(".title") %>
 <% content_for :section, "imports" %>
+<%= turbo_stream_from "admin_imports" %>
 
 <div class="mb-6">
   <h1 class="text-2xl font-semibold"><%= t(".heading") %></h1>
