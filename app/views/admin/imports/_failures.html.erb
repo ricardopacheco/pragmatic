@@ -1,0 +1,29 @@
+<section class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="flex items-center gap-2 px-6 pt-5 pb-2">
+    <h2 class="card-title text-base"><%= t(".title") %></h2>
+    <span class="badge badge-soft badge-error badge-sm"><%= import.failed_rows %></span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="table table-sm sm:table-md">
+      <thead>
+        <tr>
+          <th class="w-16"><%= t(".row") %></th>
+          <th class="hidden md:table-cell"><%= t(".full_name") %></th>
+          <th><%= t(".email") %></th>
+          <th><%= t(".errors") %></th>
+        </tr>
+      </thead>
+      <tbody id="<%= import.dom_id %>_failures">
+        <% import.failures.each do |failure| %>
+          <tr>
+            <td class="tabular-nums text-base-content/60"><%= failure["row"] %></td>
+            <td class="hidden md:table-cell"><%= failure.dig("data", "full_name").presence || "—" %></td>
+            <td class="max-w-40 truncate sm:max-w-none"><%= failure.dig("data", "email") %></td>
+            <td class="text-error"><%= Array(failure["messages"]).to_sentence %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+<section id="<%= import.dom_id %>_progress" class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body">
+    <div class="flex flex-wrap items-end justify-between gap-2">
+      <div>
+        <p class="text-sm text-base-content/60"><%= t(".progress") %></p>
+        <p class="text-4xl font-semibold tabular-nums"><%= import.progress_percentage %>%</p>
+      </div>
+      <p class="text-sm text-base-content/60"><%= t(".rows", processed: import.processed_rows, total: import.total_rows) %></p>
+    </div>
+    <progress class="progress progress-primary mt-2 h-3 w-full" value="<%= import.progress_percentage %>" max="100" aria-label="<%= t(".progress") %>"></progress>
+  </div>
+</section>
+
+<%= render "admin/imports/stats", import: %>

@@ -1,0 +1,57 @@
+en:
+  admin:
+    imports:
+      index:
+        title: "Imports · Pragmatic"
+        heading: "Imports"
+        subheading: "Create users in bulk from a spreadsheet"
+        recent: "Recent imports"
+      form:
+        title: "New import"
+        spreadsheet: "Spreadsheet"
+        hint: "CSV or XLSX up to 10 MB. Rows are processed in the background."
+        submit: "Start import"
+        columns: "Expected columns"
+        columns_hint: "The first row must contain the headers."
+      table:
+        file: "File"
+        status: "Status"
+        progress: "Progress"
+        results: "Results"
+      import:
+        not_started: "Not started yet"
+        progress: "Import progress"
+        created: "%{count} created"
+        failed: "%{count} failed"
+      empty:
+        heading: "No imports yet"
+        description: "Upload a CSV or XLSX file to create users in bulk. You can follow the progress here in real time."
+      show:
+        title: "%{name} · Pragmatic"
+        imports: "Imports"
+        uploaded_by: "Uploaded by %{name}"
+      progress:
+        progress: "Progress"
+        rows: "%{processed} of %{total} rows"
+      stats:
+        total: "Total rows"
+        created: "Created"
+        failed: "Failed"
+        pending: "Pending"
+      completed:
+        progress: "Progress"
+        finished: "Finished %{time}"
+        heading: "All rows imported"
+        description: "%{count} users were created without errors."
+        view_users: "View users"
+      failure:
+        heading: "The file couldn't be processed"
+        formats: "Accepted formats: .csv and .xlsx"
+        headers: "The first row must contain the headers: %{headers}"
+        retry: "Upload a new file"
+      failures:
+        title: "Failed rows"
+        row: "Row"
+        full_name: "Full name"
+        email: "Email"
+        errors: "Errors"

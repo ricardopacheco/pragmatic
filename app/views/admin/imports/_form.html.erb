@@ -1,0 +1,33 @@
+<section class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body gap-6 md:flex-row">
+    <%= form_with model: form_object, url: admin_imports_path, class: "flex flex-1 flex-col gap-4" do |form| %>
+      <h2 class="card-title text-base"><%= t(".title") %></h2>
+
+      <fieldset class="fieldset">
+        <%= form.label :spreadsheet, t(".spreadsheet"), class: "fieldset-legend pt-0" %>
+        <%= form.file_field :spreadsheet,
+                            accept: ".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            class: class_names("file-input w-full", "file-input-error": form_object.errors.any?),
+                            required: true %>
+        <% if form_object.errors.any? %>
+          <p class="label mt-1 whitespace-normal text-error"><%= form_object.errors.full_messages.to_sentence %></p>
+        <% else %>
+          <p class="label whitespace-normal"><%= t(".hint") %></p>
+        <% end %>
+      </fieldset>
+
+      <%= form.submit t(".submit"), class: "btn btn-primary sm:self-start",
+                      data: { turbo_submits_with: t("shared.submitting.uploading") } %>
+    <% end %>
+
+    <aside class="rounded-box bg-base-200 p-4 text-sm md:w-72">
+      <h3 class="font-medium"><%= t(".columns") %></h3>
+      <p class="mt-1 text-base-content/60"><%= t(".columns_hint") %></p>
+      <ul class="mt-3 flex flex-wrap gap-1.5">
+        <% SpreadsheetReader::Base::KNOWN_HEADERS.each do |header| %>
+          <li><code class="badge badge-ghost border-base-300 font-mono"><%= header %></code></li>
+        <% end %>
+      </ul>
+    </aside>
+  </div>
+</section>

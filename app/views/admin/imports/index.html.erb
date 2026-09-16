@@ -1,0 +1,17 @@
+<% content_for :title, t(".title") %>
+<% content_for :section, "imports" %>
+
+<div class="mb-6">
+  <h1 class="text-2xl font-semibold"><%= t(".heading") %></h1>
+  <p class="text-sm text-base-content/60"><%= t(".subheading") %></p>
+</div>
+
+<%= render "admin/imports/form", form_object: @form %>
+
+<section class="card mt-6 border border-base-300 bg-base-100 shadow-sm">
+  <div class="px-6 pt-5 pb-2">
+    <h2 class="card-title text-base"><%= t(".recent") %></h2>
+  </div>
+
+  <%= @presenter.render_imports %>
+</section>

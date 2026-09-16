@@ -1,0 +1,25 @@
+<% content_for :title, t(".title", name: @import.filename) %>
+<% content_for :section, "imports" %>
+
+<div class="breadcrumbs mb-1 text-sm text-base-content/60">
+  <ul>
+    <li><%= link_to t(".imports"), admin_imports_path %></li>
+    <li class="max-w-48 truncate sm:max-w-none"><%= @import.filename %></li>
+  </ul>
+</div>
+
+<div id="<%= @import.dom_id %>" class="flex flex-col gap-6">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="min-w-0">
+      <h1 class="truncate text-2xl font-semibold"><%= @import.filename %></h1>
+      <p class="text-sm text-base-content/60"><%= t(".uploaded_by", name: @import.user.full_name) %></p>
+    </div>
+    <span id="<%= @import.dom_id %>_status" class="badge <%= @import.status_badge_class %> self-start sm:self-auto">
+      <% if @import.processing? %><span class="loading loading-spinner loading-xs"></span><% end %>
+      <%= @import.status_label %>
+    </span>
+  </div>
+
+  <%= @presenter.render_status_card %>
+  <%= @presenter.render_failures %>
+</div>
