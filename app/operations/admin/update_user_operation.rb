@@ -10,6 +10,7 @@ module Admin
       ActiveRecord::Base.transaction do
         yield update_user_on_database(user, user_attributes(validated))
         yield remove_avatar_image(user, validated)
+        yield send_update_user_broadcast(user.id)
       end
 
       Success(user)
@@ -19,6 +20,10 @@ module Admin
 
     def user_attributes(validated)
       validated.to_h.except(:remove_avatar_image)
+    end
+
+    def send_update_user_broadcast(user_id)
+      Success(Admin::UpdateUserBroadcastJob.perform_later(user_id, request_id: Turbo.current_request_id))
     end
   end
 end

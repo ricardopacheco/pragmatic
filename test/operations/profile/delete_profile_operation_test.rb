@@ -53,6 +53,12 @@ module Profile
       end
     end
 
+    test "enqueues the broadcast job" do
+      assert_enqueued_with(job: Profile::DeleteProfileBroadcastJob, queue: "broadcast") do
+        @operation.call(@user.id)
+      end
+    end
+
     test "sends the deletion email to whoever deleted the account" do
       assert_enqueued_email_with AccountMailer, :deleted,
         args: [{full_name: @user.full_name, email: @user.email}] do

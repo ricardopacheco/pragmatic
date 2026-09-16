@@ -8,9 +8,16 @@ module Admin
 
       ActiveRecord::Base.transaction do
         @user = yield create_user_on_database(validated.to_h)
+        yield send_create_user_broadcast(@user.id)
       end
 
       Success(@user)
+    end
+
+    private
+
+    def send_create_user_broadcast(user_id)
+      Success(Admin::CreateUserBroadcastJob.perform_later(user_id, request_id: Turbo.current_request_id))
     end
   end
 end

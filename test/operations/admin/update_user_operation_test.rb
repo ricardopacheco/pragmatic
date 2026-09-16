@@ -94,6 +94,12 @@ module Admin
       assert_enqueued_with(job: ActiveStorage::PurgeJob)
     end
 
+    test "enqueues the broadcast job" do
+      assert_enqueued_with(job: Admin::UpdateUserBroadcastJob, queue: "broadcast") do
+        @operation.call(@admin.id, @user.id, valid_attributes)
+      end
+    end
+
     private
 
     def valid_attributes
