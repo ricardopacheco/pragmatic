@@ -125,5 +125,24 @@ module Admin
       assert_equal 2, import.failed_rows
       assert_not_empty import.row_errors.first["messages"]
     end
+
+    test "saves the progress before reaching the end of a long spreadsheet" do
+      import = create(:import, :batch)
+
+      # Start and finish always broadcast; the third one is the mid-file save.
+      assert_enqueued_jobs 3, only: Admin::ImportProgressBroadcastJob do
+        @operation.call(import.id)
+      end
+
+      assert_equal ProcessImportOperation::BATCH_SIZE, import.reload.succeeded_rows
+    end
+
+    test "enqueues the progress broadcast job" do
+      import = create(:import)
+
+      assert_enqueued_with(job: Admin::ImportProgressBroadcastJob, queue: "broadcast") do
+        @operation.call(import.id)
+      end
+    end
   end
 end

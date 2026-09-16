@@ -9,6 +9,7 @@ module Admin
       ActiveRecord::Base.transaction do
         @import = yield create_import_on_database(admin, validated[:spreadsheet])
         yield enqueue_processing(@import)
+        yield send_create_import_broadcast(@import.id)
       end
 
       Success(@import)
@@ -26,6 +27,10 @@ module Admin
 
     def enqueue_processing(import)
       Success(Admin::ProcessImportJob.perform_later(import.id))
+    end
+
+    def send_create_import_broadcast(import_id)
+      Success(Admin::CreateImportBroadcastJob.perform_later(import_id, request_id: Turbo.current_request_id))
     end
   end
 end

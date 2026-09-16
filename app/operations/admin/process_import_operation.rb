@@ -51,6 +51,7 @@ module Admin
 
     def start(import, total_rows)
       import.update!(status: :processing, total_rows:, started_at: Time.current)
+      broadcast_progress(import)
     end
 
     def import_rows(import, reader)
@@ -98,18 +99,26 @@ module Admin
 
     def save_progress(import)
       import.save!
+      broadcast_progress(import)
     end
 
     def finish(import)
       import.status = import.failed_rows.zero? ? :completed : :completed_with_errors
       import.finished_at = Time.current
       import.save!
+
+      broadcast_progress(import)
     end
 
     def fail_import(import, reason)
       import.update!(status: :failed, failure_reason: reason, finished_at: Time.current)
+      broadcast_progress(import)
 
       Failure(base: reason)
+    end
+
+    def broadcast_progress(import)
+      Admin::ImportProgressBroadcastJob.perform_later(import.id)
     end
   end
 end
