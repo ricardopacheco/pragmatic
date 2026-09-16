@@ -85,6 +85,12 @@ module Profile
       assert_predicate @user.reload.avatar_image, :attached?
     end
 
+    test "enqueues the broadcast job" do
+      assert_enqueued_with(job: Profile::UpdateProfileBroadcastJob, queue: "broadcast") do
+        @operation.call(@user.id, valid_attributes)
+      end
+    end
+
     private
 
     def valid_attributes

@@ -59,5 +59,11 @@ module Admin
       assert_predicate result, :success?
       assert_predicate other_admin.reload, :profile?
     end
+
+    test "enqueues the broadcast job" do
+      assert_enqueued_with(job: Admin::UpdateUserRoleBroadcastJob, queue: "broadcast") do
+        @operation.call(@admin.id, @user.id, role: "admin")
+      end
+    end
   end
 end

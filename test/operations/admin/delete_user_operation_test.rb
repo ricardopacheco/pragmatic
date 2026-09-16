@@ -62,6 +62,12 @@ module Admin
       assert_nil result.value!
     end
 
+    test "enqueues the broadcast job" do
+      assert_enqueued_with(job: Admin::DeleteUserBroadcastJob, queue: "broadcast") do
+        @operation.call(@admin.id, @user.id)
+      end
+    end
+
     test "sends the deletion email to whoever was removed" do
       assert_enqueued_email_with AccountMailer, :deleted,
         args: [{full_name: @user.full_name, email: @user.email}] do

@@ -9,6 +9,60 @@ class BroadcastsTest < ActiveSupport::TestCase
     @admin = create(:user, :admin)
   end
 
+  test "creating a user updates the dashboard and refreshes the users list" do
+    streams = capture_broadcasts { Admin::CreateUserBroadcastJob.perform_now(create(:user).id) }
+
+    assert_equal 2, streams.count("admin_dashboard")
+    assert_includes streams, "admin_users"
+  end
+
+  test "the dashboard broadcast carries the current counters" do
+    create_list(:user, 2)
+
+    payload = capture_payloads("admin_dashboard") { Guest::RegisterUserBroadcastJob.perform_now(User.last.id) }
+
+    assert_match(/id="dashboard_stats"/, payload.first)
+    assert_match(/id="total_users_count"[^>]*>3</, payload.first.squish)
+    assert_match(/id="recent_users"/, payload.last)
+  end
+
+  test "deleting a profile updates the dashboard and the users list" do
+    streams = capture_broadcasts { Profile::DeleteProfileBroadcastJob.perform_now(@admin.id) }
+
+    assert_includes streams, "admin_dashboard"
+    assert_includes streams, "admin_users"
+  end
+
+  test "the refresh carries the request id, so the acting tab keeps its flash message" do
+    payload = capture_payloads("admin_users") do
+      Admin::DeleteUserBroadcastJob.perform_now(@admin.id, request_id: "d3adb33f")
+    end
+
+    assert_match(/request-id="d3adb33f"/, payload.first)
+  end
+
+  # The jobs below only re-render from the database, so what there is to assert about
+  # #perform is how many messages reach the wire. Counting at ActionCable.server, the
+  # single funnel every Turbo broadcast goes through, also means nothing above it is
+  # stubbed: the partials really render.
+  test "updating a user pushes the two dashboard blocks and the list refresh" do
+    ActionCable.server.expects(:broadcast).times(3)
+
+    Admin::UpdateUserBroadcastJob.perform_now(@admin.id)
+  end
+
+  test "changing a role pushes the two dashboard blocks and the list refresh" do
+    ActionCable.server.expects(:broadcast).times(3)
+
+    Admin::UpdateUserRoleBroadcastJob.perform_now(@admin.id)
+  end
+
+  test "updating a profile pushes the two dashboard blocks and the list refresh" do
+    ActionCable.server.expects(:broadcast).times(3)
+
+    Profile::UpdateProfileBroadcastJob.perform_now(@admin.id)
+  end
+
   test "signing in replaces the active sessions list of that user" do
     session = @admin.sessions.create!(ip_address: "203.0.113.7", user_agent: "Chrome")
 

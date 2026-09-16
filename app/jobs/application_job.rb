@@ -9,6 +9,37 @@ class ApplicationJob < ActiveJob::Base
   # Most jobs are safe to ignore if the underlying records are no longer available
   # discard_on ActiveJob::DeserializationError
 
+  DASHBOARD_STREAM = "admin_dashboard"
+  USERS_STREAM = "admin_users"
+  IMPORTS_STREAM = "admin_imports"
+  RECENT_USERS = 4
+
+  # Refreshes carry the id of the request that caused them, so Turbo skips the tab
+  # that made the change: it already shows the new page, flash message included.
+  def refresh(stream, request_id)
+    Turbo.with_request_id(request_id) { Turbo::StreamsChannel.broadcast_refresh_to(stream) }
+  end
+
+  def broadcast_dashboard
+    Turbo::StreamsChannel.broadcast_replace_to(
+      DASHBOARD_STREAM,
+      target: "dashboard_stats",
+      partial: "admin/dashboards/stats",
+      locals: {dashboard: Admin::DashboardDecorator.new(nil)}
+    )
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      DASHBOARD_STREAM,
+      target: "recent_users",
+      partial: "admin/dashboards/recent_users_list",
+      locals: {users: Admin::UserDecorator.wrap(User.order(created_at: :desc).limit(RECENT_USERS))}
+    )
+  end
+
+  def broadcast_users_list(request_id = nil)
+    refresh(USERS_STREAM, request_id)
+  end
+
   def broadcast_sessions(user_id)
     user = User.find_by(id: user_id)
     return if user.blank?

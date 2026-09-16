@@ -59,5 +59,11 @@ module Guest
       assert_predicate result, :success?
       assert_predicate result.value!, :profile?
     end
+
+    test "enqueues the broadcast job" do
+      assert_enqueued_with(job: Guest::RegisterUserBroadcastJob, queue: "broadcast") do
+        @operation.call(attributes_for(:user))
+      end
+    end
   end
 end

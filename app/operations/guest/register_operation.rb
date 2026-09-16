@@ -7,6 +7,7 @@ module Guest
 
       ActiveRecord::Base.transaction do
         @user = yield create_user_on_database(registration_attributes(validated))
+        yield send_register_user_broadcast(@user.id)
       end
 
       Success(@user)
@@ -17,6 +18,10 @@ module Guest
     # Visitors always register as regular users: the contract does not accept a role.
     def registration_attributes(validated)
       validated.to_h.merge(role: :profile)
+    end
+
+    def send_register_user_broadcast(user_id)
+      Success(Guest::RegisterUserBroadcastJob.perform_later(user_id, request_id: Turbo.current_request_id))
     end
   end
 end
