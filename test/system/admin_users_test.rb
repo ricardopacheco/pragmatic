@@ -73,6 +73,7 @@ class AdminUsersTest < ApplicationSystemTestCase
     sign_in_as @admin
     visit admin_users_path
 
+    wait_for_stimulus("dialog")
     click_on I18n.t("admin.users.user.delete", name: user.full_name)
     click_on I18n.t("admin.users.delete_modal.confirm")
 
@@ -87,6 +88,7 @@ class AdminUsersTest < ApplicationSystemTestCase
     sign_in_as @admin
     visit admin_users_path
 
+    wait_for_stimulus("dialog")
     click_on I18n.t("admin.users.user.delete", name: user.full_name)
     click_on I18n.t("admin.users.delete_modal.confirm")
     assert_text I18n.t("admin.users.destroy.success")

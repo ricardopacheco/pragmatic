@@ -29,7 +29,20 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # which is also how the tests should reach them.
   Capybara.enable_aria_label = true
 
+  # The GitHub runners are slower than a local machine: 2s (the default) is not always
+  # enough for a request or an upload to come back.
+  Capybara.default_max_wait_time = 5
+
   private
+
+  # Stimulus loads its controllers with dynamic imports, which can finish after the page
+  # load that visit waits for: a click that lands before the controller connects is lost.
+  def wait_for_stimulus(identifier)
+    page.document.synchronize do
+      connected = page.evaluate_script("Stimulus.controllers.some((c) => c.identifier === '#{identifier}')")
+      raise Capybara::ExpectationNotMet, "#{identifier} controller not connected" unless connected
+    end
+  end
 
   # perform_enqueued_jobs walks the queue as it stood when called, so a job enqueued
   # by another job never runs — the import broadcasts its progress from inside the
