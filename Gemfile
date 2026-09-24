@@ -62,6 +62,11 @@ group :development do
   gem "standard", "1.56.0", require: false
   gem "standard-rails", "1.6.0", require: false
   gem "standard-performance", "1.9.0", require: false
+
+  # Profiling application
+  gem "rack-mini-profiler", "5.0.0"
+  gem "memory_profiler", "1.1.0"
+  gem "stackprof", "0.2.28"
 end
 
 group :test do
