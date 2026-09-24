@@ -8,7 +8,11 @@
 #   bin/rubycritic app test config db -s 0
 paths:
   - app
+  - lib
 
 minimum_score: 90
 
 no_browser: true
+
+formats:
+  - console

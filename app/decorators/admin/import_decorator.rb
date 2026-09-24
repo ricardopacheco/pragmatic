@@ -10,7 +10,7 @@ module Admin
       "failed" => "badge-soft badge-error"
     }.freeze
 
-    attributes :id, :status, :total_rows, :succeeded_rows, :failed_rows
+    attributes :id, :status, :total_rows, :succeeded_rows, :failed_rows, :processed_rows
 
     def filename
       return unless item.spreadsheet.attached?
@@ -24,10 +24,6 @@ module Admin
 
     def status_badge_class
       BADGE_CLASSES.fetch(item.status, "badge-ghost")
-    end
-
-    def processed_rows
-      item.succeeded_rows + item.failed_rows
     end
 
     def pending_rows

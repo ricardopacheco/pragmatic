@@ -53,18 +53,7 @@ module Admin
     end
 
     def filtered_users
-      role = params[:role]
-      scope = User.all
-      scope = scope.where(role:) if User.roles.key?(role)
-      scope = scope.where(search_condition) if params[:query].present?
-      scope
-    end
-
-    def search_condition
-      term = "%#{params[:query].strip}%"
-      users = User.arel_table
-
-      users[:full_name].matches(term).or(users[:email].matches(term))
+      User.with_role(params[:role]).search(params[:query])
     end
 
     def user_params

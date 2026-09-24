@@ -64,7 +64,7 @@ module Admin
       reader.each_row do |row_number, attributes|
         import_row(import, row_number, attributes)
 
-        save_progress(import) if processed(import) % BATCH_SIZE == 0
+        save_progress(import) if import.processed_rows % BATCH_SIZE == 0
       end
     end
 
@@ -101,18 +101,13 @@ module Admin
       {"row" => row_number, "data" => attributes.stringify_keys, "messages" => messages}
     end
 
-    def processed(import) = import.succeeded_rows + import.failed_rows
-
     def save_progress(import)
       import.save!
       broadcast_progress(import)
     end
 
     def finish(import)
-      import.status = import.failed_rows.zero? ? :completed : :completed_with_errors
-      import.finished_at = Time.current
-      import.save!
-
+      import.finish!
       broadcast_progress(import)
     end
 
