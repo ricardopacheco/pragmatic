@@ -102,6 +102,7 @@ class ProfileTest < ApplicationSystemTestCase
   test "the user deletes the account after confirming" do
     sign_in_as @user
 
+    wait_for_stimulus("dialog")
     click_on I18n.t("profile.profiles.show.delete.action")
 
     within("dialog") { click_on I18n.t("profile.profiles.show.delete.action") }

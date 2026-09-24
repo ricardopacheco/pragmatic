@@ -20,6 +20,7 @@ class RealtimeTest < ApplicationSystemTestCase
     sign_in_as create(:user, :admin)
     visit admin_users_path
 
+    wait_for_stimulus("dialog")
     click_on I18n.t("admin.users.user.delete", name: doomed.full_name)
     click_on I18n.t("admin.users.delete_modal.confirm")
     assert_text I18n.t("admin.users.destroy.success")
