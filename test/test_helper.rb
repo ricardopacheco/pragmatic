@@ -21,16 +21,6 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
-    # Every worker is a separate process, so each one needs its own name and has to
-    # write its result before exiting, or only one worker's coverage would count.
-    parallelize_setup do |worker|
-      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
-    end
-
-    parallelize_teardown do |_worker|
-      SimpleCov.result
-    end
-
     include FactoryBot::Syntax::Methods
     include ActionDispatch::TestProcess::FixtureFile
     include ActiveJob::TestHelper
