@@ -6,7 +6,7 @@ require "application_system_test_case"
 # search and pagination of the list.
 class AdminUsersTest < ApplicationSystemTestCase
   setup do
-    @admin = create(:user, :admin, full_name: "Ada Prado")
+    @admin = create(:user, :admin)
   end
 
   test "a regular user has no access to the administration area" do
@@ -54,7 +54,7 @@ class AdminUsersTest < ApplicationSystemTestCase
   end
 
   test "the admin edits a user" do
-    user = create(:user, full_name: "Bruno Salles")
+    user = create(:user)
 
     sign_in_as @admin
     visit admin_users_path
@@ -68,7 +68,7 @@ class AdminUsersTest < ApplicationSystemTestCase
   end
 
   test "the admin deletes a user after confirming" do
-    user = create(:user, full_name: "Bruno Salles")
+    user = create(:user)
 
     sign_in_as @admin
     visit admin_users_path
@@ -77,12 +77,12 @@ class AdminUsersTest < ApplicationSystemTestCase
     click_on I18n.t("admin.users.delete_modal.confirm")
 
     assert_text I18n.t("admin.users.destroy.success")
-    assert_no_text "Bruno Salles"
+    assert_no_text user.full_name
     assert_nil User.find_by(id: user.id)
   end
 
   test "the page stays usable after deleting a user" do
-    user = create(:user, full_name: "Bruno Salles")
+    user = create(:user)
 
     sign_in_as @admin
     visit admin_users_path
@@ -101,26 +101,26 @@ class AdminUsersTest < ApplicationSystemTestCase
   end
 
   test "searching narrows the list down to the match" do
-    create(:user, full_name: "Bruno Salles")
-    create(:user, full_name: "Carla Nunes")
+    other = create(:user)
+    match = create(:user)
 
     sign_in_as @admin
     visit admin_users_path
 
-    fill_in I18n.t("admin.users.index.search"), with: "Carla"
+    fill_in I18n.t("admin.users.index.search"), with: match.full_name
 
-    assert_text "Carla Nunes"
-    assert_no_text "Bruno Salles"
+    assert_text match.full_name
+    assert_no_text other.full_name
   end
 
   test "the search field keeps the focus while the results arrive" do
-    create(:user, full_name: "Carla Nunes")
+    match = create(:user)
 
     sign_in_as @admin
     visit admin_users_path
 
-    fill_in I18n.t("admin.users.index.search"), with: "Carla"
-    assert_text "Carla Nunes"
+    fill_in I18n.t("admin.users.index.search"), with: match.full_name
+    assert_text match.full_name
 
     # The field is inside the frame it reloads, so the response replaces it and the
     # focus has to be handed over to the new node.
@@ -150,7 +150,7 @@ class AdminUsersTest < ApplicationSystemTestCase
   end
 
   test "the admin promotes a user with the role toggle" do
-    user = create(:user, full_name: "Bruno Salles")
+    user = create(:user)
 
     sign_in_as @admin
     visit admin_users_path

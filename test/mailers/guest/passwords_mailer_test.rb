@@ -5,7 +5,7 @@ require "test_helper"
 module Guest
   class PasswordsMailerTest < ActionMailer::TestCase
     setup do
-      @user = create(:user, full_name: "Marina Prado")
+      @user = create(:user)
     end
 
     test "the email is addressed to whoever asked for the reset" do
@@ -28,7 +28,7 @@ module Guest
       mail = PasswordsMailer.reset(@user)
       greeting = I18n.t("guest.passwords_mailer.reset.greeting", name: @user.full_name)
 
-      assert_includes mail.html_part.decoded, greeting
+      assert_includes mail.html_part.decoded, ERB::Util.html_escape(greeting)
       assert_includes mail.text_part.decoded, greeting
     end
 

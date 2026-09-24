@@ -6,14 +6,14 @@ module Admin
   class UpdateUserFormTest < ActiveSupport::TestCase
     setup do
       @admin = create(:user, :admin)
-      @user = create(:user, full_name: "Jane Cooper", email: "jane@example.com", password: "password")
+      @user = create(:user)
     end
 
     test "prefills the fields from the user, role included" do
       form = UpdateUserForm.new(user: @user)
 
-      assert_equal "Jane Cooper", form.full_name
-      assert_equal "jane@example.com", form.email
+      assert_equal @user.full_name, form.full_name
+      assert_equal @user.email, form.email
       assert_equal "profile", form.role
     end
 

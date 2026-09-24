@@ -6,14 +6,13 @@ module Admin
   class ImportsPresenterTest < ActiveSupport::TestCase
     setup do
       @view_context = mock("view_context")
-      @admin = build(:user, :admin)
       @import = create(:import)
     end
 
     test "renders the empty state when there are no imports" do
       @view_context.expects(:render).with({partial: "admin/imports/empty"}).returns("empty")
 
-      presenter = ImportsPresenter.new(@view_context, @admin, imports: [])
+      presenter = ImportsPresenter.new(@view_context, imports: [])
 
       assert_equal "empty", presenter.render_imports
     end
@@ -22,7 +21,7 @@ module Admin
       imports = Admin::ImportDecorator.wrap([@import])
       @view_context.expects(:render).with({partial: "admin/imports/table", locals: {imports:}}).returns("table")
 
-      presenter = ImportsPresenter.new(@view_context, @admin, imports:)
+      presenter = ImportsPresenter.new(@view_context, imports:)
 
       assert_equal "table", presenter.render_imports
     end
@@ -79,7 +78,7 @@ module Admin
     end
 
     def presenter(options)
-      ImportsPresenter.new(@view_context, @admin, options)
+      ImportsPresenter.new(@view_context, options)
     end
   end
 end

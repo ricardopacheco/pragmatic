@@ -15,7 +15,6 @@ class ApplicationJob < ActiveJob::Base
   DASHBOARD_STREAM = "admin_dashboard"
   USERS_STREAM = "admin_users"
   IMPORTS_STREAM = "admin_imports"
-  RECENT_USERS = 4
 
   def capture_exception(error)
     TrackExceptionService.capture_exception(error, job: self.class.name, job_id:, executions:)
@@ -32,14 +31,14 @@ class ApplicationJob < ActiveJob::Base
       DASHBOARD_STREAM,
       target: "dashboard_stats",
       partial: "admin/dashboards/stats",
-      locals: {dashboard: Admin::DashboardDecorator.new(nil)}
+      locals: {dashboard: Admin::DashboardDecorator.new}
     )
 
     Turbo::StreamsChannel.broadcast_replace_to(
       DASHBOARD_STREAM,
       target: "recent_users",
       partial: "admin/dashboards/recent_users_list",
-      locals: {users: Admin::UserDecorator.wrap(User.order(created_at: :desc).limit(RECENT_USERS))}
+      locals: {users: Admin::UserDecorator.wrap(User.recent)}
     )
   end
 

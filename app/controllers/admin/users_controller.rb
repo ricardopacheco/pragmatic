@@ -8,7 +8,7 @@ module Admin
       @page = [params[:page].to_i, 1].max
       @total = filtered_users.count
       @users = UserDecorator.wrap(filtered_users.order(created_at: :desc).offset((@page - 1) * PER_PAGE).limit(PER_PAGE))
-      @presenter = presenter_class.new(view_context, Current.user, users: @users)
+      @presenter = presenter_class.new(view_context, users: @users)
     end
 
     def new

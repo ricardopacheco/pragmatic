@@ -2,13 +2,11 @@
 
 module Admin
   class DashboardsController < BaseController
-    RECENT_USERS = 4
-
     def show
-      @dashboard = DashboardDecorator.new(Current.user)
-      @recent_users = UserDecorator.wrap(User.order(created_at: :desc).limit(RECENT_USERS))
+      @dashboard = DashboardDecorator.new
+      @recent_users = UserDecorator.wrap(User.recent)
       @latest_import = latest_import
-      @presenter = presenter_class.new(view_context, Current.user, latest_import: @latest_import)
+      @presenter = presenter_class.new(view_context, latest_import: @latest_import)
     end
 
     private

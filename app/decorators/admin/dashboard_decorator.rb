@@ -2,19 +2,12 @@
 
 module Admin
   class DashboardDecorator
-    attr_reader :current_user
-
-    def initialize(current_user, user_repo: ::User)
-      @current_user = current_user
+    def initialize(user_repo: ::User)
       @user_repo = user_repo
     end
 
     def total_users
       @total_users ||= counts_by_role.values.sum
-    end
-
-    def any_users?
-      total_users.positive?
     end
 
     def admins_count

@@ -6,13 +6,12 @@ module Admin
   class UsersPresenterTest < ActiveSupport::TestCase
     setup do
       @view_context = mock("view_context")
-      @admin = build(:user, :admin)
     end
 
     test "renders the empty state when there are no users" do
       @view_context.expects(:render).with({partial: "admin/users/empty"}).returns("empty")
 
-      presenter = UsersPresenter.new(@view_context, @admin, users: [])
+      presenter = UsersPresenter.new(@view_context, users: [])
 
       assert_equal "empty", presenter.render_users
     end
@@ -20,7 +19,7 @@ module Admin
     test "renders the empty state when no collection is given" do
       @view_context.expects(:render).with({partial: "admin/users/empty"}).returns("empty")
 
-      presenter = UsersPresenter.new(@view_context, @admin)
+      presenter = UsersPresenter.new(@view_context)
 
       assert_equal "empty", presenter.render_users
     end
@@ -29,13 +28,9 @@ module Admin
       users = Admin::UserDecorator.wrap([build(:user)])
       @view_context.expects(:render).with({partial: "admin/users/table", locals: {users:}}).returns("table")
 
-      presenter = UsersPresenter.new(@view_context, @admin, users:)
+      presenter = UsersPresenter.new(@view_context, users:)
 
       assert_equal "table", presenter.render_users
-    end
-
-    test "keeps the current user" do
-      assert_equal @admin, UsersPresenter.new(@view_context, @admin).current_user
     end
   end
 end

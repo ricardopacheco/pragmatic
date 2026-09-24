@@ -6,7 +6,7 @@ require "application_system_test_case"
 # and deleting it.
 class ProfileTest < ApplicationSystemTestCase
   setup do
-    @user = create(:user, full_name: "Marina Prado")
+    @user = create(:user)
   end
 
   test "saving a name shorter than the minimum shows an error" do

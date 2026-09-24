@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Active sessions list, shown in the profile and in the admin user page.
+# Active sessions list, shown in the profile.
 class SessionDecorator < Burgundy::Item
   BROWSERS = {
     "Edg" => "Edge", "OPR" => "Opera", "Chrome" => "Chrome", "Safari" => "Safari", "Firefox" => "Firefox"
