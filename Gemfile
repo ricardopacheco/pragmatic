@@ -2,15 +2,11 @@ source "https://rubygems.org"
 
 ruby "4.0.6"
 
-gem "rails", "8.1.3.1"
+gem "rails", "8.1.4"
 gem "sqlite3", "2.9.6"
 gem "puma", "8.0.2"
 gem "thruster", "0.1.26", require: false
 gem "bootsnap", "1.26.0", require: false
-
-# json 3.x made JSON.parse options keyword-only, but ActiveSupport 8.1.3.1 still passes
-# a positional hash (breaks reading the session cookie). Remove once Rails supports json 3.
-gem "json", "2.21.2"
 
 # Architecture tools
 gem "dry-validation", "1.11.1"
@@ -32,13 +28,14 @@ gem "bcrypt", "3.1.22"
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache", "1.0.10"
 gem "solid_queue", "1.7.0"
-gem "solid_cable", "4.0.2"
+gem "solid_cable", "4.1.0"
 
 # Deploy tools
 gem "kamal", "2.12.0", require: false
 
 # Storage tools
-gem "image_processing", "1.14.0"
+gem "image_processing", "2.1.0"
+gem "ruby-vips", "2.3.0", require: false
 gem "active_storage_validations", "4.1.1"
 
 # Spreadsheet tools
@@ -68,5 +65,5 @@ group :test do
   gem "mocha", "3.1.0"
   gem "capybara", "3.40.0"
   gem "selenium-webdriver", "4.49.0"
-  gem "simplecov", "0.22.0", require: false
+  gem "simplecov", "1.3.0", require: false
 end
