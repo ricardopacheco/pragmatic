@@ -119,12 +119,12 @@ module Admin
       assert_equal I18n.t("operations.admin.process_import.unexpected_error"), import.failure_reason
     end
 
-    # The contract mirrors every model validation, so this branch only defends against
-    # a save that fails for a reason the contract could not see — a uniqueness race,
-    # for instance. Stubbing the save is what puts the operation in that position.
-    test "falls back to the model errors when a valid row cannot be saved" do
+    test "records the errors of the user that failed to save" do
       import = create(:import, :xlsx)
+      errors = ActiveModel::Errors.new(User.new)
+      errors.add(:email, :taken)
       User.any_instance.stubs(:save).returns(false)
+      User.any_instance.stubs(:errors).returns(errors)
 
       assert_no_difference -> { User.count } do
         @operation.call(import.id)
@@ -133,7 +133,7 @@ module Admin
       import.reload
 
       assert_equal 2, import.failed_rows
-      assert_not_empty import.row_errors.first["messages"]
+      assert_equal errors.full_messages, import.row_errors.first["messages"]
     end
 
     test "saves the progress before reaching the end of a long spreadsheet" do

@@ -70,12 +70,13 @@ module Admin
 
     def import_row(import, row_number, attributes)
       result = Admin::CreateUserContract.new.call(user_attributes(attributes))
+      user = User.new(result.to_h) if result.success?
 
-      if result.success? && User.new(result.to_h).save
+      if user&.save
         import.succeeded_rows += 1
       else
         import.failed_rows += 1
-        import.row_errors << row_error(row_number, attributes, result)
+        import.row_errors << row_error(row_number, attributes, failure_messages(result, user))
       end
     end
 
@@ -91,13 +92,15 @@ module Admin
       )
     end
 
-    def row_error(row_number, attributes, result)
-      messages = if result.failure?
-        result.errors.to_h.values.flatten
-      else
-        User.new(attributes.slice(:full_name, :email)).tap(&:validate).errors.full_messages
-      end
+    # The contract mirrors the model validations, so the model only fails a row the
+    # contract accepted for a reason it could not see, like a uniqueness race.
+    def failure_messages(result, user)
+      return result.errors.to_h.values.flatten if result.failure?
 
+      user.errors.full_messages
+    end
+
+    def row_error(row_number, attributes, messages)
       {"row" => row_number, "data" => attributes.stringify_keys, "messages" => messages}
     end
 
