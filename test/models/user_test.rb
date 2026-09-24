@@ -94,6 +94,12 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors.details[:role].pluck(:error), :inclusion
   end
 
+  test "recent lists the newest users up to the limit" do
+    users = Array.new(User::RECENT_LIMIT + 1) { |days| create(:user, created_at: days.days.ago) }
+
+    assert_equal users.first(User::RECENT_LIMIT), User.recent.to_a
+  end
+
   test "with_role keeps only the users of the role" do
     admin = create(:user, :admin)
     create(:user)

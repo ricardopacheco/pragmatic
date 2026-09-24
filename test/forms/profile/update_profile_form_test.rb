@@ -5,7 +5,7 @@ require "test_helper"
 module Profile
   class UpdateProfileFormTest < ActiveSupport::TestCase
     setup do
-      @user = create(:user, full_name: "Jane Cooper", email: "jane@example.com")
+      @user = create(:user)
     end
 
     test "is named User, so form_with generates user fields" do
@@ -15,8 +15,8 @@ module Profile
     test "prefills the fields from the user" do
       form = UpdateProfileForm.new(user: @user)
 
-      assert_equal "Jane Cooper", form.full_name
-      assert_equal "jane@example.com", form.email
+      assert_equal @user.full_name, form.full_name
+      assert_equal @user.email, form.email
       assert_equal @user, form.user
     end
 

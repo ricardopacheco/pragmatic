@@ -5,7 +5,7 @@ require "test_helper"
 module Admin
   class UsersControllerTest < ActionDispatch::IntegrationTest
     setup do
-      @admin = create(:user, :admin, full_name: "Robert Fox")
+      @admin = create(:user, :admin)
       sign_in_as(@admin)
     end
 
@@ -19,7 +19,7 @@ module Admin
     end
 
     test "index lists the users" do
-      create(:user, full_name: "Jane Cooper")
+      create(:user)
 
       get admin_users_path
 
@@ -36,12 +36,13 @@ module Admin
     end
 
     test "index filters by name" do
-      create(:user, full_name: "Jane Cooper")
+      user = create(:user)
 
-      get admin_users_path(query: "jane")
+      get admin_users_path(query: user.full_name)
 
       assert_response :success
       assert_select "#users_list tr", 1
+      assert_select "#users_list", text: /#{Regexp.escape(user.full_name)}/
     end
 
     test "index filters by role" do
@@ -90,12 +91,12 @@ module Admin
     end
 
     test "edit renders the form with the user data" do
-      user = create(:user, full_name: "Jane Cooper")
+      user = create(:user)
 
       get edit_admin_user_path(user)
 
       assert_response :success
-      assert_select "input[value=?]", "Jane Cooper"
+      assert_select "input[value=?]", user.full_name
     end
 
     test "update changes the user" do
@@ -109,13 +110,14 @@ module Admin
     end
 
     test "update rejects invalid data" do
-      user = create(:user, full_name: "Jane Cooper")
+      user = create(:user)
       taken = create(:user)
 
-      patch admin_user_path(user), params: {user: {full_name: "Jane Cooper", email: taken.email, role: "profile"}}
+      assert_no_changes -> { user.reload.full_name } do
+        patch admin_user_path(user), params: {user: {full_name: "Jane C.", email: taken.email, role: "profile"}}
+      end
 
       assert_response :unprocessable_entity
-      assert_equal "Jane Cooper", user.reload.full_name
     end
 
     test "destroy deletes the user" do

@@ -8,7 +8,7 @@ require "application_system_test_case"
 # are delivered here.
 class RealtimeTest < ApplicationSystemTestCase
   test "a user deleted by one admin leaves the other admin's list on its own" do
-    doomed = create(:user, full_name: "Bruno Salles")
+    doomed = create(:user)
 
     using_session(:watcher) do
       sign_in_as create(:user, :admin)

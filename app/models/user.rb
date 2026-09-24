@@ -14,6 +14,9 @@ class User < ApplicationRecord
 
   enum :role, {profile: 0, admin: 1}, validate: true
 
+  RECENT_LIMIT = 4
+
+  scope :recent, -> { order(created_at: :desc).limit(RECENT_LIMIT) }
   scope :with_role, ->(role) { where(role:) if roles.key?(role) }
   scope :search, ->(query) do
     next if query.blank?

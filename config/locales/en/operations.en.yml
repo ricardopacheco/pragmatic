@@ -4,7 +4,6 @@ en:
       user_not_found: "User not found"
       admin_not_found: "Admin not found"
       user_is_not_admin: "User is not an admin"
-      user_is_not_profile: "User is not a regular user"
     admin:
       process_import:
         import_not_found: "Import not found"

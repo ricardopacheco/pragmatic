@@ -6,7 +6,7 @@ require "application_system_test_case"
 # for the latest spreadsheet.
 class AdminDashboardTest < ApplicationSystemTestCase
   setup do
-    @admin = create(:user, :admin, full_name: "Ada Prado")
+    @admin = create(:user, :admin)
   end
 
   test "the counters show how many users there are, by role" do
@@ -21,12 +21,12 @@ class AdminDashboardTest < ApplicationSystemTestCase
   end
 
   test "the recent users list stops at the most recent ones" do
-    create_list(:user, Admin::DashboardsController::RECENT_USERS)
+    create_list(:user, User::RECENT_LIMIT)
 
     sign_in_as @admin
 
     # One more user exists than the list shows, so the cap is what is being read here.
-    assert_selector "#recent_users li", count: Admin::DashboardsController::RECENT_USERS
+    assert_selector "#recent_users li", count: User::RECENT_LIMIT
   end
 
   test "with no imports the dashboard offers to start one" do

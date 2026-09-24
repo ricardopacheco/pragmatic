@@ -5,16 +5,16 @@ require "test_helper"
 module Profile
   class UserDecoratorTest < ActiveSupport::TestCase
     setup do
-      @user = create(:user, full_name: "Jane Cooper", email: "jane@example.com")
+      @user = create(:user)
       @decorator = UserDecorator.new(@user)
     end
 
     test "exposes the declared attributes" do
-      assert_equal({id: @user.id, full_name: "Jane Cooper", email: "jane@example.com"}, @decorator.to_h)
+      assert_equal({id: @user.id, full_name: @user.full_name, email: @user.email}, @decorator.to_h)
     end
 
     test "builds the initials" do
-      assert_equal "JC", @decorator.initials
+      assert_equal "JC", UserDecorator.new(build(:user, full_name: "Jane Cooper")).initials
     end
 
     test "translates the role" do

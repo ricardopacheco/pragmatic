@@ -5,7 +5,7 @@ require "test_helper"
 module Profile
   class ProfilesControllerTest < ActionDispatch::IntegrationTest
     setup do
-      @user = create(:user, full_name: "Jane Cooper", email: "jane@example.com", password: "password")
+      @user = create(:user)
     end
 
     test "show requires an authenticated user" do
@@ -21,6 +21,16 @@ module Profile
 
       assert_response :success
       assert_select "#sessions li", 1
+    end
+
+    test "show renders the profile of an admin too" do
+      admin = create(:user, :admin)
+      sign_in_as(admin)
+
+      get profile_path
+
+      assert_response :success
+      assert_select "h1", text: admin.full_name
     end
 
     test "edit renders both forms" do
@@ -45,10 +55,11 @@ module Profile
       create(:user, email: "taken@example.com")
       sign_in_as(@user)
 
-      patch profile_path, params: {user: {full_name: "Jane Cooper", email: "taken@example.com"}}
+      assert_no_changes -> { @user.reload.email } do
+        patch profile_path, params: {user: {full_name: "Jane C.", email: "taken@example.com"}}
+      end
 
       assert_response :unprocessable_entity
-      assert_equal "jane@example.com", @user.reload.email
     end
 
     test "destroy deletes the account and signs the user out" do

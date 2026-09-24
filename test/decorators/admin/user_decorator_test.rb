@@ -5,13 +5,13 @@ require "test_helper"
 module Admin
   class UserDecoratorTest < ActiveSupport::TestCase
     setup do
-      @user = create(:user, full_name: "Jane Cooper", email: "jane@example.com")
+      @user = create(:user)
       @decorator = UserDecorator.new(@user)
     end
 
     test "exposes the declared attributes" do
       assert_equal(
-        {id: @user.id, full_name: "Jane Cooper", email: "jane@example.com", role: "profile"},
+        {id: @user.id, full_name: @user.full_name, email: @user.email, role: "profile"},
         @decorator.to_h
       )
     end
@@ -21,7 +21,7 @@ module Admin
     end
 
     test "builds the initials of the first and last name" do
-      assert_equal "JC", @decorator.initials
+      assert_equal "JC", UserDecorator.new(build(:user, full_name: "Jane Cooper")).initials
     end
 
     test "builds the initials of a single name" do
@@ -69,9 +69,9 @@ module Admin
     end
 
     test "wraps a collection" do
-      create(:user, full_name: "Wade Warren")
+      other = create(:user)
 
-      assert_equal %w[JC WW], UserDecorator.wrap(User.order(:created_at)).map(&:initials)
+      assert_equal [@user.full_name, other.full_name], UserDecorator.wrap(User.order(:created_at)).map(&:full_name)
     end
   end
 end

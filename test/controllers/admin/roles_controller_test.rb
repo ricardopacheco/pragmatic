@@ -9,12 +9,12 @@ module Admin
     end
 
     test "update changes the role of the user" do
-      user = create(:user, full_name: "Jane Cooper")
+      user = create(:user)
 
       patch admin_user_role_path(user), params: {user: {role: "admin"}}
 
       assert_redirected_to admin_users_path
-      assert_equal I18n.t("admin.roles.update.success", name: "Jane Cooper"), flash[:notice]
+      assert_equal I18n.t("admin.roles.update.success", name: user.full_name), flash[:notice]
       assert_predicate user.reload, :admin?
     end
 
