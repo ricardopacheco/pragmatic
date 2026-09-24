@@ -11,3 +11,4 @@ pt:
         unsupported_format: "Formato de arquivo não suportado"
         unreadable_file: "Não foi possível ler o arquivo"
         missing_headers: "Cabeçalhos ausentes: %{headers}"
+        unexpected_error: "A importação foi interrompida por um erro inesperado"

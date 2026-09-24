@@ -63,6 +63,14 @@ module Admin
       assert_select "nav[aria-label=?] a", I18n.t("admin.users.pagination.pagination")
     end
 
+    test "new renders an empty form that requires the password" do
+      get new_admin_user_path
+
+      assert_response :success
+      assert_select "h1", I18n.t("admin.users.new.heading")
+      assert_select "input[name=?][required]", "user[password]"
+    end
+
     test "create adds a user" do
       assert_difference -> { User.count }, 1 do
         post admin_users_path, params: {user: valid_attributes}

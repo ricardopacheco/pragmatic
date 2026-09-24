@@ -11,3 +11,4 @@ en:
         unsupported_format: "Unsupported file format"
         unreadable_file: "The file could not be read"
         missing_headers: "Missing headers: %{headers}"
+        unexpected_error: "The import stopped because of an unexpected error"
