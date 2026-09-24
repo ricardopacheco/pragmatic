@@ -16,6 +16,12 @@ module Admin
       fail_import(import, I18n.t("#{I18N_SCOPE}.missing_headers", headers: error.message))
     rescue SpreadsheetReader::Error, ::CSV::MalformedCSVError
       fail_import(import, I18n.t("#{I18N_SCOPE}.unreadable_file"))
+    rescue Dry::Monads::Do::Halt
+      # How `yield` returns a Failure early: it must not be taken for an unexpected error.
+      raise
+    rescue => error
+      fail_import(import, I18n.t("#{I18N_SCOPE}.unexpected_error")) if import
+      raise error
     end
 
     private

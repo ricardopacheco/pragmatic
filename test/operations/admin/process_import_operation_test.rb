@@ -109,6 +109,16 @@ module Admin
       assert_equal I18n.t("operations.admin.process_import.unreadable_file"), import.failure_reason
     end
 
+    test "marks the import as failed and raises again on an unexpected error" do
+      import = create(:import)
+      SpreadsheetReader::Csv.any_instance.stubs(:each_row).raises(ActiveRecord::ConnectionNotEstablished)
+
+      assert_raises(ActiveRecord::ConnectionNotEstablished) { @operation.call(import.id) }
+
+      assert_predicate import.reload, :failed?
+      assert_equal I18n.t("operations.admin.process_import.unexpected_error"), import.failure_reason
+    end
+
     # The contract mirrors every model validation, so this branch only defends against
     # a save that fails for a reason the contract could not see — a uniqueness race,
     # for instance. Stubbing the save is what puts the operation in that position.

@@ -3,16 +3,23 @@ class ApplicationJob < ActiveJob::Base
   # otherwise a worker can pick the job up before the records exist.
   self.enqueue_after_transaction_commit = true
 
-  # Automatically retry jobs that encountered a deadlock
-  # retry_on ActiveRecord::Deadlocked
+  MAX_RETRIES = 15
 
-  # Most jobs are safe to ignore if the underlying records are no longer available
-  # discard_on ActiveJob::DeserializationError
+  # Only the last failure is reported, and raised again so the queue keeps the job as failed.
+  retry_on StandardError, attempts: MAX_RETRIES do |job, error|
+    job.capture_exception(error)
+
+    raise error
+  end
 
   DASHBOARD_STREAM = "admin_dashboard"
   USERS_STREAM = "admin_users"
   IMPORTS_STREAM = "admin_imports"
   RECENT_USERS = 4
+
+  def capture_exception(error)
+    TrackExceptionService.capture_exception(error, job: self.class.name, job_id:, executions:)
+  end
 
   # Refreshes carry the id of the request that caused them, so Turbo skips the tab
   # that made the change: it already shows the new page, flash message included.

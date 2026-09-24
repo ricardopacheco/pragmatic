@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Checks the suites merged: each one alone covers only part of the app.
+require "bundler/setup"
+require "simplecov"
+
+SimpleCov.collate(Dir[File.join(ARGV.fetch(0, "coverage"), "**/.resultset.json")], "rails", ignore_timeout: false) do
+  merge_timeout 3600
+  minimum_coverage line: 100
+end

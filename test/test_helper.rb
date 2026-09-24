@@ -9,8 +9,6 @@ require "simplecov"
 SimpleCov.start "rails" do
   command_name "run-#{Process.pid}"
   merge_timeout 3600
-
-  minimum_coverage line: 60
 end
 
 require_relative "../config/environment"
