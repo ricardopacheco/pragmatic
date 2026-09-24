@@ -25,6 +25,9 @@ gem "tailwindcss-rails", "4.6.0"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "3.1.22"
 
+# Seeds by environment
+gem "seedbank", "0.5.0"
+
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache", "1.0.10"
 gem "solid_queue", "1.7.0"
