@@ -18,6 +18,10 @@ directories:
   "app/operations":
     UtilityFunction:
       enabled: false
+    # The do-notation chains one step per line: 6 to 10 statements is the shape of an
+    # operation, not a smell.
+    TooManyStatements:
+      max_statements: 10
   "app/jobs":
     UtilityFunction:
       enabled: false

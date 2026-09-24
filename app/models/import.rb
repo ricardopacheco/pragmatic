@@ -11,4 +11,10 @@ class Import < ApplicationRecord
 
   validates :total_rows, :succeeded_rows, :failed_rows, numericality: {only_integer: true, greater_than_or_equal_to: 0}
   validates :spreadsheet, attached: true, content_type: {with: %i[csv xlsx], spoofing_protection: true}, size: {less_than_or_equal_to: 10.megabytes}
+
+  def processed_rows = succeeded_rows + failed_rows
+
+  def finish!
+    update!(status: failed_rows.zero? ? :completed : :completed_with_errors, finished_at: Time.current)
+  end
 end

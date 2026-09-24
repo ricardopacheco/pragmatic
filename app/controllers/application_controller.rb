@@ -14,11 +14,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_authentication_url
-    session.delete(:return_to_after_authenticating) || dashboard_path_for(Current.user)
+    session.delete(:return_to_after_authenticating) || current_user_dashboard_path
   end
 
   # Where each role lands: admins manage users, everyone else sees their own profile.
-  def dashboard_path_for(user)
-    user&.admin? ? admin_dashboard_path : profile_path
+  def current_user_dashboard_path
+    Current.user&.admin? ? admin_dashboard_path : profile_path
   end
 end

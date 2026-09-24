@@ -14,6 +14,14 @@ class User < ApplicationRecord
 
   enum :role, {profile: 0, admin: 1}, validate: true
 
+  scope :with_role, ->(role) { where(role:) if roles.key?(role) }
+  scope :search, ->(query) do
+    next if query.blank?
+
+    term = "%#{query.strip}%"
+    where(arel_table[:full_name].matches(term).or(arel_table[:email].matches(term)))
+  end
+
   normalizes :email, with: ->(email) { email.strip.downcase }
 
   validates :full_name, presence: true, length: {in: Rails.configuration.x.validations.full_name_length}

@@ -69,4 +69,27 @@ class ImportTest < ActiveSupport::TestCase
 
     assert_equal [newer, older], Import.latest.to_a
   end
+
+  test "processed_rows adds up the succeeded and the failed rows" do
+    assert_equal 5, build(:import, succeeded_rows: 3, failed_rows: 2).processed_rows
+  end
+
+  test "finish! completes an import without failed rows" do
+    import = create(:import, succeeded_rows: 3)
+
+    freeze_time do
+      import.finish!
+
+      assert_predicate import.reload, :completed?
+      assert_equal Time.current, import.finished_at
+    end
+  end
+
+  test "finish! completes with errors an import with failed rows" do
+    import = create(:import, succeeded_rows: 2, failed_rows: 1)
+
+    import.finish!
+
+    assert_predicate import.reload, :completed_with_errors?
+  end
 end

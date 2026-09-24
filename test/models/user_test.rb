@@ -94,6 +94,35 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors.details[:role].pluck(:error), :inclusion
   end
 
+  test "with_role keeps only the users of the role" do
+    admin = create(:user, :admin)
+    create(:user)
+
+    assert_equal [admin], User.with_role("admin").to_a
+  end
+
+  test "with_role ignores an unknown or missing role" do
+    create_list(:user, 2)
+
+    assert_equal 2, User.with_role("owner").count
+    assert_equal 2, User.with_role(nil).count
+  end
+
+  test "search matches the name or the email" do
+    jane = create(:user, full_name: "Jane Cooper", email: "jane@example.com")
+    wade = create(:user, full_name: "Wade Warren", email: "wade@acme.test")
+
+    assert_equal [jane], User.search(" cooper ").to_a
+    assert_equal [wade], User.search("acme").to_a
+  end
+
+  test "search ignores a blank query" do
+    create_list(:user, 2)
+
+    assert_equal 2, User.search("").count
+    assert_equal 2, User.search(nil).count
+  end
+
   test "lists the sessions from the newest to the oldest" do
     user = create(:user)
     older = user.sessions.create!(created_at: 2.days.ago)

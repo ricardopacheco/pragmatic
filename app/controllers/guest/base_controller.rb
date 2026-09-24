@@ -14,7 +14,7 @@ module Guest
     def redirect_signed_in_user
       return unless authenticated?
 
-      redirect_to dashboard_path_for(Current.user)
+      redirect_to current_user_dashboard_path
     end
   end
 end
