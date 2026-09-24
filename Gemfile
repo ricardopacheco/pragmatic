@@ -35,7 +35,7 @@ gem "kamal", "2.12.0", require: false
 
 # Storage tools
 gem "image_processing", "2.1.0"
-gem "ruby-vips", "2.3.0"
+gem "ruby-vips", "2.3.0", require: false
 gem "active_storage_validations", "4.1.1"
 
 # Spreadsheet tools
