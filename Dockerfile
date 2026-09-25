@@ -24,11 +24,14 @@ RUN apt-get update -qq && \
     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+# The official image ships Ruby with ZJIT compiled in; the variable turns it on for every process
+# (server, jobs, console, tests). Ruby 4.0 still recommends YJIT for production — see the README.
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
-    LD_PRELOAD="/usr/local/lib/libjemalloc.so"
+    LD_PRELOAD="/usr/local/lib/libjemalloc.so" \
+    RUBY_ZJIT_ENABLE="1"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build

@@ -28,6 +28,11 @@ module Pragmatic
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Ruby runs one JIT at a time: with ZJIT on (RUBY_ZJIT_ENABLE, see the Dockerfile)
+    # the YJIT that Rails enables in production must stay off. Without ZJIT — a Ruby
+    # built without it — the Rails default still applies.
+    config.yjit = false if defined?(RubyVM::ZJIT) && RubyVM::ZJIT.enabled?
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
