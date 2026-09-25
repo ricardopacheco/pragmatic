@@ -115,13 +115,13 @@ are rate-limited. Brakeman runs in `bin/ci` and fails on any warning.
 
 ## Troubleshooting
 
+- Some system tests running with headless Chrome are intermittent in CI. This never happens locally or when using headless Firefox. As of the completion of this project, I have not been able to determine the exact cause of the problem.
 - **`AEAD authentication tag verification failed` when starting the containers.**
 The container received a key different from the one used to encrypt `config/credentials.yml.enc`.
 Docker Compose reads the `.env` file, but a shell-exported variable takes precedence over it—usually an
 old `export RAILS_MASTER_KEY=...` still active in the terminal (or in `.bashrc`/`.zshrc`).
 Check it with `echo $RAILS_MASTER_KEY`; if it outputs something, run `unset RAILS_MASTER_KEY` and start the containers again.
 - Rubycritic does not show test coverage in the reports. This is an unresolved issue due to test suite parallelization. To view it while bypassing this limitation, you can use:
-
 ```sh
 docker compose --profile test run --build --name pragmatic-cov -e PARALLEL_WORKERS=1 test bash -c "bin/rails db:prepare && bin/rails test && bin/rails test:system && bin/rubycritic -f html"
 docker cp pragmatic-cov:/usr/src/app/tmp/rubycritic/. ./tmp/rubycritic
