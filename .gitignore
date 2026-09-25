@@ -32,6 +32,8 @@
 
 # Ignore key files for decrypting credentials and more.
 /config/*.key
+# Every checkout generates its own credentials (bin/setup).
+/config/credentials.yml.enc
 
 
 /app/assets/builds/*

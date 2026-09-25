@@ -73,24 +73,29 @@ after "development:users" do
     import.save!
   end
 
-  create_import.call(default_admin, data.join("users.csv"))
-  create_import.call(default_admin, data.join("users.xlsx"), content_type: xlsx)
-  create_import.call(default_admin, data.join("users_missing_headers.csv"))
-  create_import.call(default_admin, data.join("users_malformed.csv"))
-  create_import.call(default_admin, write_csv.call("queued.csv", 200), status: :queued)
-  create_import.call(default_admin, write_csv.call("processing.csv", 2_000, errors: true), status: :processing)
-  create_import.call(default_admin, write_csv.call("large.csv", 80_000))
-  create_import.call(default_admin, write_csv.call("large_with_errors.csv", 80_000, errors: true))
-
-  22.times do |index|
-    path = write_csv.call("default_admin_#{index}.csv", random.rand(50..3_000), errors: index.odd?)
-    create_import.call(default_admin, path)
+  ActiveRecord::Migration.say_with_time "Seeding the sample imports" do
+    create_import.call(default_admin, data.join("users.csv"))
+    create_import.call(default_admin, data.join("users.xlsx"), content_type: xlsx)
+    create_import.call(default_admin, data.join("users_missing_headers.csv"))
+    create_import.call(default_admin, data.join("users_malformed.csv"))
   end
 
-  User.admin.where.not(id: default_admin.id).find_each do |admin|
-    random.rand(5..10).times do |index|
-      path = write_csv.call("admin_#{admin.id}_#{index}.csv", random.rand(20..300), errors: index.odd?)
-      create_import.call(admin, path)
+  ActiveRecord::Migration.say_with_time "Seeding generated imports (two of 80,000 rows)" do
+    create_import.call(default_admin, write_csv.call("queued.csv", 200), status: :queued)
+    create_import.call(default_admin, write_csv.call("processing.csv", 2_000, errors: true), status: :processing)
+    create_import.call(default_admin, write_csv.call("large.csv", 80_000))
+    create_import.call(default_admin, write_csv.call("large_with_errors.csv", 80_000, errors: true))
+
+    22.times do |index|
+      path = write_csv.call("default_admin_#{index}.csv", random.rand(50..3_000), errors: index.odd?)
+      create_import.call(default_admin, path)
+    end
+
+    User.admin.where.not(id: default_admin.id).find_each do |admin|
+      random.rand(5..10).times do |index|
+        path = write_csv.call("admin_#{admin.id}_#{index}.csv", random.rand(20..300), errors: index.odd?)
+        create_import.call(admin, path)
+      end
     end
   end
 end
