@@ -86,6 +86,10 @@ jobs:
 
   system-test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [headless_chrome, headless_firefox]
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips
@@ -102,12 +106,13 @@ jobs:
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          SYSTEM_TEST_BROWSER: ${{ matrix.browser }}
         run: bin/rails db:test:prepare test:system
 
       - name: Keep coverage
         uses: actions/upload-artifact@v7
         with:
-          name: coverage-system
+          name: coverage-system-${{ matrix.browser }}
           path: coverage/.resultset.json
           include-hidden-files: true
 
@@ -115,7 +120,7 @@ jobs:
         uses: actions/upload-artifact@v7
         if: failure()
         with:
-          name: screenshots
+          name: screenshots-${{ matrix.browser }}
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
 

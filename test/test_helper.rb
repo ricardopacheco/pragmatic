@@ -3,11 +3,12 @@ ENV["RAILS_ENV"] ||= "test"
 require "simplecov"
 
 # Starts before the application is loaded: anything required during boot would
-# otherwise be reported as never executed. Each run is named after its process so
-# the two suites — `bin/rails test` and `bin/rails test:system` are separate
-# processes — merge into a single report instead of overwriting each other.
+# otherwise be reported as never executed. Each run is named after its process
+# and browser so the suites — `bin/rails test` and one `bin/rails test:system`
+# per browser, separate processes and on CI separate machines — merge into a
+# single report instead of overwriting each other.
 SimpleCov.start "rails" do
-  command_name "run-#{Process.pid}"
+  command_name ["run", ENV["SYSTEM_TEST_BROWSER"], Process.pid].compact.join("-")
   merge_timeout 3600
 end
 
