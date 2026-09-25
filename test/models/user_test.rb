@@ -129,6 +129,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, User.search(nil).count
   end
 
+  test "search takes % and _ literally" do
+    match = create(:user, full_name: "Ana 50% Off", email: "ana@example.com")
+    create(:user, full_name: "Bruno Cinquenta", email: "bruno@example.com")
+
+    assert_equal [match], User.search("50%").to_a
+    assert_empty User.search("_")
+  end
+
   test "lists the sessions from the newest to the oldest" do
     user = create(:user)
     older = user.sessions.create!(created_at: 2.days.ago)

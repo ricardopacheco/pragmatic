@@ -2,8 +2,8 @@
 
 module Guest
   class PasswordsController < BaseController
-    rate_limit to: 10, within: 3.minutes, only: :create,
-      with: -> { redirect_to new_password_path, alert: t("guest.passwords.create.rate_limited") }
+    rate_limit to: 10, within: 3.minutes, only: %i[create update],
+      with: -> { redirect_to new_password_path, alert: t("guest.passwords.#{action_name}.rate_limited") }
 
     def new
       @form = RequestPasswordResetForm.new

@@ -87,5 +87,16 @@ module Guest
       assert_response :unprocessable_entity
       assert @user.reload.authenticate("password")
     end
+
+    test "update redirects with an alert once the rate limit is reached" do
+      Rails.cache.stubs(:increment).returns(11)
+
+      patch password_path(@user.password_reset_token),
+        params: {password: {password: "new-password", password_confirmation: "new-password"}}
+
+      assert_redirected_to new_password_path
+      assert_equal I18n.t("guest.passwords.update.rate_limited"), flash[:alert]
+      assert @user.reload.authenticate("password")
+    end
   end
 end

@@ -47,6 +47,17 @@ module Guest
       assert_response :unprocessable_entity
     end
 
+    test "create redirects with an alert once the rate limit is reached" do
+      Rails.cache.stubs(:increment).returns(11)
+
+      assert_no_difference -> { User.count } do
+        post registration_path, params: {user: valid_attributes}
+      end
+
+      assert_redirected_to new_registration_path
+      assert_equal I18n.t("guest.registrations.create.rate_limited"), flash[:alert]
+    end
+
     private
 
     def valid_attributes
