@@ -9,12 +9,14 @@ pt:
     registrations:
       create:
         success: "Sua conta foi criada."
+        rate_limited: "Muitas tentativas. Tente novamente mais tarde."
     passwords:
       create:
         success: "Enviamos as instruções de redefinição (se existir uma conta com esse e-mail)."
         rate_limited: "Muitas tentativas. Tente novamente mais tarde."
       update:
         success: "Sua senha foi redefinida. Entre com a nova senha."
+        rate_limited: "Muitas tentativas. Tente novamente mais tarde."
   profile:
     profiles:
       update:

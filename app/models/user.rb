@@ -21,8 +21,8 @@ class User < ApplicationRecord
   scope :search, ->(query) do
     next if query.blank?
 
-    term = "%#{query.strip}%"
-    where(arel_table[:full_name].matches(term).or(arel_table[:email].matches(term)))
+    term = "%#{sanitize_sql_like(query.strip)}%"
+    where(arel_table[:full_name].matches(term, "\\").or(arel_table[:email].matches(term, "\\")))
   end
 
   normalizes :email, with: ->(email) { email.strip.downcase }

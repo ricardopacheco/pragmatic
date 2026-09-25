@@ -2,6 +2,9 @@
 
 module Guest
   class RegistrationsController < BaseController
+    rate_limit to: 10, within: 3.minutes, only: :create,
+      with: -> { redirect_to new_registration_path, alert: t("guest.registrations.create.rate_limited") }
+
     def new
       @form = RegistrationForm.new
     end

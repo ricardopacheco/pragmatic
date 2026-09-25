@@ -9,12 +9,14 @@ en:
     registrations:
       create:
         success: "Your account has been created."
+        rate_limited: "Too many attempts. Try again later."
     passwords:
       create:
         success: "Password reset instructions sent (if an account with that email exists)."
         rate_limited: "Too many attempts. Try again later."
       update:
         success: "Your password has been reset. Sign in with your new password."
+        rate_limited: "Too many attempts. Try again later."
   profile:
     profiles:
       update:
