@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+# Rootless Docker maps the host user to root inside the container, so root is who
+# owns the bind mount there; any other uid lands in a subordinate range and cannot write.
+if docker info --format '{{.SecurityOptions}}' | grep -q rootless; then
+  uid=0 gid=0
+else
+  uid=$(id -u) gid=$(id -g)
+fi
+
+# .env feeds docker compose: the user that owns the bind mount, so files written
+# through it stay yours, and the master key for the images that carry no config/master.key.
+write_env() {
+  printf 'COMPOSE_UID=%s\nCOMPOSE_GID=%s\nRAILS_MASTER_KEY=%s\n' "$uid" "$gid" "$1" > .env
+}
+
+# The user must be in place before the credentials are written through the mount, or
+# they would belong to root. The placeholder key only satisfies compose for this call.
+write_env ""
+if [ ! -f config/master.key ]; then
+  RAILS_MASTER_KEY=pending docker compose --profile dev run --rm --no-deps server bin/rails credentials:setup
+fi
+write_env "$(cat config/master.key)"
+
+echo "Ready: docker compose --profile dev up"

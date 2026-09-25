@@ -16,7 +16,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run bin/setup first}
     volumes:
       - storage:/usr/src/app/storage
     healthcheck:
@@ -34,7 +34,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run bin/setup first}
     volumes:
       - .:/usr/src/app
       - gems-data:/usr/local/bundle
@@ -46,7 +46,7 @@ services:
     user: "${COMPOSE_UID:-0}:${COMPOSE_GID:-0}"
     command: bin/rails tailwindcss:watch[always]
     environment:
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run bin/setup first}
     volumes:
       - .:/usr/src/app
       - gems-data:/usr/local/bundle
@@ -57,7 +57,7 @@ services:
       target: test
     environment:
       RAILS_ENV: test
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run "export RAILS_MASTER_KEY=$(cat config/master.key)" first}
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY:?run bin/setup first}
     # Chromium crashes with the default 64MB of shared memory.
     shm_size: "1gb"
 

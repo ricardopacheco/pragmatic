@@ -71,10 +71,12 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Generate credentials
+        run: bin/rails credentials:setup
+
       - name: Run tests
         env:
           RAILS_ENV: test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bin/rails db:test:prepare test
 
       - name: Keep coverage
@@ -102,10 +104,12 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Generate credentials
+        run: bin/rails credentials:setup
+
       - name: Run System Tests
         env:
           RAILS_ENV: test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           SYSTEM_TEST_BROWSER: ${{ matrix.browser }}
         run: bin/rails db:test:prepare test:system
 
