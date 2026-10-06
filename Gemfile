@@ -72,6 +72,6 @@ end
 group :test do
   gem "mocha", "3.1.0"
   gem "capybara", "3.40.0"
-  gem "selenium-webdriver", "4.49.0"
+  gem "selenium-webdriver", "4.50.0"
   gem "simplecov", "1.3.0", require: false
 end
