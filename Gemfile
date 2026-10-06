@@ -53,7 +53,7 @@ end
 
 group :development do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", "8.0.6", require: false
+  gem "brakeman", "8.1.0", require: false
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", "0.9.3", require: false
   gem "rubycritic", "5.0.0", require: false
