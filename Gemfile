@@ -59,7 +59,7 @@ group :development do
   gem "rubycritic", "5.0.0", require: false
   # Standard runs RuboCop with a fixed ruleset; the plugins add the Rails and
   # performance cops on top of it.
-  gem "standard", "1.56.0", require: false
+  gem "standard", "1.57.0", require: false
   gem "standard-rails", "1.6.0", require: false
   gem "standard-performance", "1.9.0", require: false
 
