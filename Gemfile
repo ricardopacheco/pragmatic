@@ -5,7 +5,7 @@ ruby "4.0.6"
 gem "rails", "8.1.4"
 gem "sqlite3", "2.9.6"
 gem "puma", "8.0.2"
-gem "thruster", "0.1.26", require: false
+gem "thruster", "0.1.27", require: false
 gem "bootsnap", "1.26.0", require: false
 
 # Architecture tools
