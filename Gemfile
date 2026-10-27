@@ -43,7 +43,7 @@ gem "active_storage_validations", "4.1.1"
 
 # Spreadsheet tools
 gem "csv", "3.3.6"
-gem "roo", "3.0.0"
+gem "roo", "4.0.0"
 
 group :development, :test do
   gem "pry-rails", "0.3.11"
