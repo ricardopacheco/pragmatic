@@ -20,7 +20,7 @@ gem "propshaft", "1.3.2"
 gem "importmap-rails", "2.2.3"
 gem "turbo-rails", "2.0.23"
 gem "stimulus-rails", "1.3.4"
-gem "tailwindcss-rails", "4.6.0"
+gem "tailwindcss-rails", "4.7.0"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "3.1.22"
