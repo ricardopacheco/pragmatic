@@ -42,7 +42,7 @@ gem "ruby-vips", "2.3.0", require: false
 gem "active_storage_validations", "4.1.1"
 
 # Spreadsheet tools
-gem "csv", "3.3.6"
+gem "csv", "3.3.7"
 gem "roo", "3.0.0"
 
 group :development, :test do
